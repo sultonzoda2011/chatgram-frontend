@@ -5,15 +5,21 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { loginApi } from '../../api/authApi'
 import FormInput from '../../components/ui/input/formInput'
+import ModeToggle from '../../components/ui/mode-toggle'
+
 import { Button } from '../../components/ui/button'
 import { toast } from 'sonner'
 import { setToken } from '../../lib/utils/cookie'
 import { Link, useNavigate } from 'react-router-dom'
-import { Lock, User, ChatCircleDots } from 'phosphor-react'
+import { Lock, User, MessageCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
+import { LanguageSelect } from '../../components/ui/language-select'
 
 const Login = () => {
   const navigate = useNavigate()
+  const { t } = useTranslation()
+
   const { mutate, isPending } = useMutation({
     mutationFn: loginApi,
     onSuccess: (response) => {
@@ -22,8 +28,8 @@ const Login = () => {
       navigate('/')
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.message || 'Something went wrong')
-    }
+      toast.error(error.response?.data?.message || t('something_wrong'))
+    },
   })
 
   const { control, handleSubmit } = useForm<ILogin>({
@@ -39,7 +45,12 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-linear-to-br from-primary via-primary/50 to-background p-4">
+    <div className="relative min-h-screen w-full flex items-center justify-center bg-background p-4">
+      <div className="absolute right-4 top-4 flex gap-2 items-center">
+        <LanguageSelect />
+        <ModeToggle />
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -48,55 +59,46 @@ const Login = () => {
       >
         <div className="text-center mb-8">
           <div className="flex justify-center items-center gap-2 mb-4">
-            <ChatCircleDots size={42} weight="fill" className="text-primary" />
-            <span className="text-3xl font-extrabold text-primary">
-              ChatGram
-            </span>
+            <MessageCircle size={42} className="text-primary" />
+            <span className="text-3xl font-extrabold text-primary">ChatGram</span>
           </div>
-          <h2 className="text-2xl font-bold text-card-foreground">
-            Welcome Back
-          </h2>
-          <p className="text-muted-foreground mt-2 text-sm">
-            Please sign in to continue
-          </p>
+          <h2 className="text-2xl font-bold text-card-foreground">{t('login.welcome')}</h2>
+          <p className="text-muted-foreground mt-2 text-sm">{t('login.subtitle')}</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
             <FormInput
+              type="text"
               name="username"
               control={control}
-              label="Username"
-              type="text"
-              placeholder="username"
+              label={t('login.username')}
+              placeholder={t('username')}
               icon={User}
             />
             <FormInput
               name="password"
               control={control}
-              label="Password"
+              label={t('login.password')}
               type="password"
-              placeholder="password"
+              placeholder={t('login.password')}
               icon={Lock}
             />
           </div>
 
           <Button
             type="submit"
-            className="w-full h-11 bg-primary text-primary-foreground hover:bg-primary/90 font-medium shadow-lg hover:shadow-xl transition-all duration-200"
             disabled={isPending}
+            className="w-full h-11 font-medium shadow-lg hover:shadow-xl transition-all"
           >
-            {isPending ? 'Signing in...' : 'Sign In'}
+            {isPending ? t('login.submitting') : t('login.submit')}
           </Button>
 
-          <div className="text-center mt-6">
+          <div className="text-center">
             <p className="text-sm text-muted-foreground">
-              Don't have an account?{' '}
-              <Link
-                to="/register"
-                className="font-medium text-primary hover:text-primary/80 hover:underline transition-colors"
-              >
-                Create Account
+              {t('login.noAccount')}{' '}
+              <Link to="/register" className="font-medium text-primary hover:underline">
+                {t('login.noAccount')}
               </Link>
             </p>
           </div>
