@@ -1,8 +1,6 @@
-'use client'
-
 import { type Control, Controller, type FieldValues, type Path } from 'react-hook-form'
 import { useState } from 'react'
-import { Eye, EyeClosed, type Icon as PhosphorIcon } from 'phosphor-react'
+import { Eye, EyeOff, type LucideIcon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Input } from './input'
 import { Label } from '../label'
@@ -14,7 +12,7 @@ interface IFormInputProps<T extends FieldValues> {
   control: Control<T>
   placeholder?: string
   type: 'text' | 'email' | 'password' | 'number' | 'file'
-  icon?: PhosphorIcon
+  icon?: LucideIcon
   accept?: string
 }
 
@@ -75,7 +73,7 @@ const FormInput = <T extends FieldValues>({
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
                 onClick={() => setEyeOpen((prev) => !prev)}
               >
-                {eyeOpen ? <Eye size={20} /> : <EyeClosed size={20} />}
+                {eyeOpen ? <Eye size={20} /> : <EyeOff size={20} />}
               </div>
             )}
           </div>
