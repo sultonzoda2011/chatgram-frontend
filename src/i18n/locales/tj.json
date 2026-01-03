@@ -7,7 +7,10 @@
         "submit": "Ворид шудан",
         "submitting": "Воридшавӣ...",
         "noAccount": "Аккаунт надоред?",
-        "createAccount": "Аккаунт сохтан"
+        "createAccount": "Аккаунт сохтан",
+        "or": "ё",
+        "rememberMe": "Маро дар ёд дор",
+        "forgotPassword": "Рамзро фаромӯш кардед?"
     },
     "register": {
         "welcome": "Аккаунт сохтан",
@@ -27,5 +30,8 @@
         "minLength": "Бояд ҳадди ақал {{min}} аломат бошад",
         "email": "Суроғаи email нодуруст аст",
         "passwordMatch": "Рамзҳо бояд мувофиқат кунанд"
+    },
+    "common": {
+        "something_wrong": "Чизе хато рафт"
     }
 }

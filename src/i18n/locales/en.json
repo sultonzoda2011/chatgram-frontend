@@ -7,7 +7,10 @@
         "submit": "Sign In",
         "submitting": "Signing in...",
         "noAccount": "Don't have an account?",
-        "createAccount": "Create Account"
+        "createAccount": "Create Account",
+        "or": "or",
+        "rememberMe": "Remember me",
+        "forgotPassword": "Forgot password?"
     },
     "register": {
         "welcome": "Create Account",
@@ -27,5 +30,8 @@
         "minLength": "Must be at least {{min}} characters",
         "email": "Invalid email address",
         "passwordMatch": "Passwords must match"
+    },
+    "common": {
+        "something_wrong": "Something went wrong"
     }
 }

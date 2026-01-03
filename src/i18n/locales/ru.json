@@ -7,7 +7,10 @@
         "submit": "Войти",
         "submitting": "Вход...",
         "noAccount": "Нет аккаунта?",
-        "createAccount": "Создать аккаунт"
+        "createAccount": "Создать аккаунт",
+        "or": "или",
+        "rememberMe": "Запомнить меня",
+        "forgotPassword": "Забыли пароль?"
     },
     "register": {
         "welcome": "Создать аккаунт",
@@ -27,5 +30,8 @@
         "minLength": "Должно быть не менее {{min}} символов",
         "email": "Неверный адрес электронной почты",
         "passwordMatch": "Пароли должны совпадать"
+    },
+    "common": {
+        "something_wrong": "Что-то пошло не так"
     }
 }
