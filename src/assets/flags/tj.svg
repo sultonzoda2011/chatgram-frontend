@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+<rect width="1200" height="600" fill="#f00"/>
+<rect width="1200" height="429" y="171" fill="#fff"/>
+<rect width="1200" height="171" y="429" fill="#060"/>
+<g transform="translate(600,300)" fill="#fb0">
+<g id="s">
+<path id="k" d="M0-90L22-50 0-40-22-50z"/>
+<use xlink:href="#k" transform="rotate(22.5)"/>
+<use xlink:href="#k" transform="rotate(-22.5)"/>
+</g>
+<circle r="12" cy="-125"/>
+<circle r="12" cy="-145" transform="rotate(72)"/>
+<circle r="12" cy="-145" transform="rotate(144)"/>
+<circle r="12" cy="-145" transform="rotate(216)"/>
+<circle r="12" cy="-145" transform="rotate(288)"/>
+<circle r="12" cy="-165" transform="rotate(36)"/>
+<circle r="12" cy="-165" transform="rotate(-36)"/>
+</g>
+</svg>
