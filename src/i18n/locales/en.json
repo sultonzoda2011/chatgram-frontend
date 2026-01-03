@@ -1,0 +1,31 @@
+{
+    "login": {
+        "welcome": "Welcome Back",
+        "subtitle": "Please sign in to continue",
+        "username": "Username",
+        "password": "Password",
+        "submit": "Sign In",
+        "submitting": "Signing in...",
+        "noAccount": "Don't have an account?",
+        "createAccount": "Create Account"
+    },
+    "register": {
+        "welcome": "Create Account",
+        "subtitle": "Sign up to get started",
+        "email": "Email",
+        "fullName": "Full Name",
+        "username": "Username",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "submit": "Sign Up",
+        "submitting": "Signing up...",
+        "hasAccount": "Already have an account?",
+        "signIn": "Sign In"
+    },
+    "validation": {
+        "required": "This field is required",
+        "minLength": "Must be at least {{min}} characters",
+        "email": "Invalid email address",
+        "passwordMatch": "Passwords must match"
+    }
+}
