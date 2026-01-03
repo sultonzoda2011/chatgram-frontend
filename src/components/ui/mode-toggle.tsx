@@ -1,16 +1,28 @@
-
-import { Moon, Sun } from 'phosphor-react'
 import { Button } from './button'
 import { useTheme } from '../../lib/providers/theme-provider'
+import { Moon, Sun } from 'lucide-react'
+
 const ModeToggle = () => {
-  const { setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
+
   return (
-    <div>
-      <Button>
-        <Moon onClick={() => setTheme('dark')} />
+    <div className="flex items-center gap-1 rounded-full border p-1">
+      <Button
+        size="icon"
+        variant={theme === 'dark' ? 'default' : 'ghost'}
+        className="rounded-full"
+        onClick={() => setTheme('dark')}
+      >
+        <Moon className="h-4 w-4" />
       </Button>
-      <Button>
-        <Sun onClick={() => setTheme('light')} />
+
+      <Button
+        size="icon"
+        variant={theme === 'light' ? 'default' : 'ghost'}
+        className="rounded-full"
+        onClick={() => setTheme('light')}
+      >
+        <Sun className="h-4 w-4" />
       </Button>
     </div>
   )
