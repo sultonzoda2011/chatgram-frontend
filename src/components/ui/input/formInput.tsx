@@ -26,6 +26,7 @@ const FormInput = <T extends FieldValues>({
   accept,
 }: IFormInputProps<T>) => {
   const [eyeOpen, setEyeOpen] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
 
   return (
     <Controller
@@ -36,27 +37,65 @@ const FormInput = <T extends FieldValues>({
           className="flex flex-col gap-2"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         >
-          <Label htmlFor={name}>{label}</Label>
+          <motion.div
+            animate={{ x: isFocused ? 4 : 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Label
+              htmlFor={name}
+              className={cn(
+                "text-sm font-medium transition-colors duration-300",
+                isFocused ? "text-primary" : "text-muted-foreground"
+              )}
+            >
+              {label}
+            </Label>
+          </motion.div>
 
-          <div className="relative">
+          <motion.div
+            className="relative group"
+            whileTap={{ scale: 0.995 }}
+          >
+            {/* Icon container with animation */}
             {Icon && type !== 'file' && (
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                <Icon size={20} />
-              </div>
+              <motion.div
+                className={cn(
+                  "absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-300 z-10",
+                  isFocused ? "text-primary" : "text-muted-foreground/60",
+                  fieldState.error && "text-destructive"
+                )}
+                animate={{
+                  scale: isFocused ? 1.1 : 1,
+                  rotate: isFocused ? [0, -5, 5, 0] : 0
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                <Icon size={20} strokeWidth={2} />
+              </motion.div>
             )}
 
             {type === 'file' ? (
-              <input
-                type="file"
-                name={field.name}
-                ref={field.ref}
-                accept={accept}
-                onBlur={field.onBlur}
-                onChange={(e) => field.onChange(e.target.files)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
+              <motion.div
+                className="relative"
+                whileHover={{ scale: 1.01 }}
+                transition={{ duration: 0.2 }}
+              >
+                <input
+                  type="file"
+                  name={field.name}
+                  ref={field.ref}
+                  accept={accept}
+                  onBlur={() => {
+                    field.onBlur()
+                    setIsFocused(false)
+                  }}
+                  onFocus={() => setIsFocused(true)}
+                  onChange={(e) => field.onChange(e.target.files)}
+                  className="w-full h-12 px-4 py-2 border-2 border-dashed border-input/50 rounded-xl bg-background/50 backdrop-blur-sm hover:border-primary/50 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all duration-300 cursor-pointer file:cursor-pointer"
+                />
+              </motion.div>
             ) : (
               <Input
                 {...field}
@@ -64,30 +103,79 @@ const FormInput = <T extends FieldValues>({
                 value={field.value ?? ''}
                 aria-invalid={fieldState.invalid}
                 placeholder={placeholder ? `Enter ${placeholder}` : undefined}
-                className={cn(type === 'password' && 'pr-10', Icon && 'pl-10')}
+                onFocus={() => setIsFocused(true)}
+                onBlur={(e) => {
+                  field.onBlur()
+                  setIsFocused(false)
+                  // Trigger default onBlur if exists
+                  if (e.target.onblur) e.target.onblur(e)
+                }}
+                className={cn(
+                  type === 'password' && 'pr-12',
+                  Icon && 'pl-12',
+                  fieldState.error && "border-destructive focus:border-destructive focus:ring-destructive/10"
+                )}
               />
             )}
 
+            {/* Password toggle with smooth animation */}
             {type === 'password' && (
-              <div
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
+              <motion.button
+                type="button"
+                className={cn(
+                  "absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-lg transition-all duration-300",
+                  "hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-primary/20",
+                  isFocused ? "text-primary" : "text-muted-foreground/60"
+                )}
                 onClick={() => setEyeOpen((prev) => !prev)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
-                {eyeOpen ? <Eye size={20} /> : <EyeOff size={20} />}
-              </div>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={eyeOpen ? 'open' : 'closed'}
+                    initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
+                    animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                    exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {eyeOpen ? <Eye size={20} /> : <EyeOff size={20} />}
+                  </motion.div>
+                </AnimatePresence>
+              </motion.button>
             )}
-          </div>
 
+            {/* Focus glow effect */}
+            <motion.div
+              className="absolute inset-0 rounded-xl bg-primary/5 -z-10"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{
+                opacity: isFocused ? 1 : 0,
+                scale: isFocused ? 1.02 : 0.95
+              }}
+              transition={{ duration: 0.3 }}
+            />
+          </motion.div>
+
+          {/* Error message with enhanced animation */}
           <AnimatePresence>
             {fieldState.error && (
-              <motion.p
-                className="text-sm text-red-600"
-                initial={{ opacity: 0, y: -5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -5 }}
+              <motion.div
+                className="flex items-center gap-2"
+                initial={{ opacity: 0, y: -8, height: 0 }}
+                animate={{ opacity: 1, y: 0, height: 'auto' }}
+                exit={{ opacity: 0, y: -8, height: 0 }}
+                transition={{ duration: 0.2 }}
               >
-                {fieldState.error.message}
-              </motion.p>
+                <motion.div
+                  className="w-1 h-1 rounded-full bg-destructive"
+                  animate={{ scale: [1, 1.5, 1] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                />
+                <p className="text-sm text-destructive font-medium">
+                  {fieldState.error.message}
+                </p>
+              </motion.div>
             )}
           </AnimatePresence>
         </motion.div>
