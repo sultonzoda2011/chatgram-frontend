@@ -6,7 +6,7 @@ const Layout = () => {
     return <Navigate to="/login" />
   }
   return (
-    <div>
+    <div >
       <Outlet />
     </div>
   )
