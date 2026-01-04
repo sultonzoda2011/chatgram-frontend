@@ -22,7 +22,7 @@ const Sidebar = () => {
   )
 
   return (
-    <div className="h-full w-80 md:w-96 flex flex-col bg-sidebar/50 backdrop-blur-xl border-r border-sidebar-border/50 shadow-2xl relative overflow-hidden">
+    <div className="h-full w-70 md:w-86 flex flex-col bg-sidebar/50 backdrop-blur-xl border-r border-sidebar-border/50 shadow-2xl relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-40 bg-linear-to-b from-sidebar-primary/5 to-transparent pointer-events-none" />
 
       <div className="p-4 pt-6 pb-2 z-10 space-y-4">
@@ -71,7 +71,12 @@ const Sidebar = () => {
             ) : (
               filteredContacts?.map((contact) => (
                 <UserItem key={contact.userId} onClick={() => {
-                  navigate(`/chat/${contact.userId}`)
+                  navigate(`/chat/${contact.userId}`, {
+                    state: {
+                      name: contact.username,
+                      avatar: contact.avatar
+                    }
+                  })
                 }} contact={contact} />
               ))
             )}
