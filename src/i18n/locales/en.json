@@ -39,5 +39,9 @@
     },
     "common": {
         "something_wrong": "Something went wrong"
+    },
+    "home": {
+        "selectUser": "Select a user on the left and start chatting",
+        "subtitle": "Start a new conversation by selecting a contact from the list on the left. All your messages are protected."
     }
 }
