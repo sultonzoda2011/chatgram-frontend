@@ -4,7 +4,7 @@ import { Search, PenBox } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { getContacts } from '../../../api/contactsApi'
-import type { IContact } from '../../../types/contacts'
+import type { Contact } from '../../../types/contacts'
 import { Input } from '../../ui/input/input'
 import UserItem from './user-item'
 import { useNavigate } from 'react-router-dom'
@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom'
 const Sidebar = () => {
   const { t } = useTranslation()
   const [searchQuery, setSearchQuery] = useState('')
-  const { data: contacts, isLoading } = useQuery<IContact[]>({
+  const { data: contacts, isLoading } = useQuery<Contact[]>({
     queryKey: ['getContacts'],
     queryFn: () => getContacts(),
   })
