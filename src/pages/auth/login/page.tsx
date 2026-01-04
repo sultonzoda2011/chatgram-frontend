@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { loginApi } from '../../../api/authApi'
 import { setToken } from '../../../lib/utils/cookie'
-import type { ILogin } from '../../../types/auth'
+import type { Login } from '../../../types/auth'
 import { LoginSchema } from '../../../schemas/auth'
 import { LanguageSelect } from '../../../components/ui/language-select'
 import ModeToggle from '../../../components/ui/mode-toggle'
@@ -28,12 +28,12 @@ const Login = () => {
       setToken(response.data.token)
       navigate('/')
     },
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error.response?.data?.message || t('common.something_wrong'))
     },
   })
 
-  const { control, handleSubmit } = useForm<ILogin>({
+  const { control, handleSubmit } = useForm<Login>({
     defaultValues: {
       username: '',
       password: '',
@@ -41,7 +41,7 @@ const Login = () => {
     resolver: zodResolver(LoginSchema),
   })
 
-  const onSubmit = (data: ILogin) => {
+  const onSubmit = (data: Login) => {
     mutate(data)
   }
 
