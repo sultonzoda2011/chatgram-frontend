@@ -6,7 +6,6 @@ export const loginApi = async (data: Login) => {
     const response = await api.post('/auth/login', data)
     return response.data
   } catch (error) {
-    console.log(error)
     throw error
   }
 }
@@ -15,7 +14,6 @@ export const registerApi = async (data: Register) => {
     const response = await api.post('/auth/register', data)
     return response.data
   } catch (error) {
-    console.log(error)
     throw error
   }
 }
