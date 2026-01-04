@@ -4,6 +4,7 @@ import Home from './pages/main/home/page'
 import { getToken } from './lib/utils/cookie'
 import Login from './pages/auth/login/page'
 import Register from './pages/auth/register/page'
+import Chat from './pages/main/chat/page'
 
 const App = () => {
   const token = getToken()
@@ -17,6 +18,7 @@ const App = () => {
           <>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/chat/:id" element={<Chat />} />
           </>
         )}
       </Routes>
