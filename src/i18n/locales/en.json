@@ -1,47 +1,39 @@
 {
-    "login": {
-        "welcome": "Welcome Back",
-        "subtitle": "Please sign in to continue",
-        "username": "Username",
-        "password": "Password",
-        "submit": "Sign In",
-        "submitting": "Signing in...",
-        "noAccount": "Don't have an account?",
-        "createAccount": "Create Account",
-        "or": "or",
-        "rememberMe": "Remember me",
-        "forgotPassword": "Forgot password?"
-    },
-    "register": {
-        "welcome": "Create Account",
-        "subtitle": "Sign up to get started",
-        "email": "Email",
-        "fullName": "Full Name",
-        "username": "Username",
-        "password": "Password",
-        "confirmPassword": "Confirm Password",
-        "submit": "Sign Up",
-        "submitting": "Signing up...",
-        "hasAccount": "Already have an account?",
-        "signIn": "Sign In"
-    },
-    "validation": {
-        "required": "This field is required",
-        "minLength": "Must be at least {{min}} characters",
-        "email": "Invalid email address",
-        "passwordMatch": "Passwords must match"
-    },
-    "sidebar": {
-        "title": "Chats",
-        "searchPlaceholder": "Search messages...",
-        "noChats": "No chats found",
-        "noMessages": "No messages"
-    },
-    "common": {
-        "something_wrong": "Something went wrong"
-    },
-    "home": {
-        "selectUser": "Select a user on the left and start chatting",
-        "subtitle": "Start a new conversation by selecting a contact from the list on the left. All your messages are protected."
-    }
+  "login": {
+    "welcome": "Welcome Back",
+    "subtitle": "Please sign in to continue",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign In",
+    "submitting": "Signing in...",
+    "noAccount": "Don't have an account?",
+    "createAccount": "Create Account",
+    "or": "or",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "success": "Logged in successfully",
+    "something_wrong": "Something went wrong"
+  },
+  "register": {
+    "welcome": "Create Account",
+    "subtitle": "Sign up to get started",
+    "email": "Email",
+    "fullName": "Full Name",
+    "username": "Username",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "submit": "Sign Up",
+    "submitting": "Signing up...",
+    "hasAccount": "Already have an account?",
+    "signIn": "Sign In",
+    "or": "or",
+    "success": "Registered successfully",
+    "something_wrong": "Something went wrong"
+  },
+  "validation": {
+    "required": "This field is required",
+    "minLength": "Must be at least {{min}} characters",
+    "email": "Invalid email address",
+    "passwordMatch": "Passwords must match"
+  }
 }
