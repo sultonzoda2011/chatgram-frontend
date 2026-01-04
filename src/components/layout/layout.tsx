@@ -8,11 +8,11 @@ const Layout = () => {
     return <Navigate to="/login" />
   }
   return (
-    <div className='flex'>
+    <div className='flex h-screen w-full overflow-hidden bg-background'>
       <Sidebar />
-      <div className='w-full'>
+      <main className='flex-1 min-w-0 relative flex flex-col'>
         <Outlet />
-      </div>
+      </main>
     </div>
   )
 }
