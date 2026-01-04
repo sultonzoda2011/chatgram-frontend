@@ -1,11 +1,6 @@
-import type { IContact } from '../../../types/contacts'
+import type { UserItemProps } from '../../../types/contacts'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
-
-interface UserItemProps {
-  contact: IContact
-  onClick?: () => void
-}
 
 const UserItem = ({ contact, onClick }: UserItemProps) => {
   const { t } = useTranslation()
