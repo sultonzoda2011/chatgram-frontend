@@ -9,12 +9,12 @@ import { Lock, MessageCircle, User, Mail, ArrowRight, Loader2 } from 'lucide-rea
 import { useTranslation } from 'react-i18next'
 import { registerApi } from '../../../api/authApi'
 import { setToken } from '../../../lib/utils/cookie'
-import type { Register } from '../../../types/auth'
 import { RegisterSchema } from '../../../schemas/auth'
 import { LanguageSelect } from '../../../components/ui/language-select'
 import ModeToggle from '../../../components/ui/mode-toggle'
 import FormInput from '../../../components/ui/input/formInput'
 import { Button } from '../../../components/ui/button'
+import type { IRegister } from '../../../types/auth'
 
 const Register = () => {
   const { t } = useTranslation()
@@ -23,26 +23,25 @@ const Register = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: registerApi,
     onSuccess: (response) => {
-      toast.success(response.message)
-      setToken(response.data.token)
+      toast.success(t('register.success'))
+      setToken(response.token)
       navigate('/')
     },
-    onError: (error: { response?: { data?: { message?: string } } }) => {
-      toast.error(error.response?.data?.message || t('common.something_wrong'))
+    onError: () => {
+      toast.error(t('register.something_wrong'))
     },
   })
 
-  const { control, handleSubmit } = useForm<Register>({
+  const { control, handleSubmit } = useForm<IRegister>({
     defaultValues: {
       username: '',
       email: '',
       password: '',
-      confirmPassword: '',
     },
     resolver: zodResolver(RegisterSchema),
   })
 
-  const onSubmit = (data: Register) => {
+  const onSubmit = (data: IRegister) => {
     mutate(data)
   }
 
@@ -97,16 +96,12 @@ const Register = () => {
                 <MessageCircle size={22} className="text-primary-foreground" />
               </motion.div>
               <span className="text-xl font-black bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
-                ChatGram
+                SAO
               </span>
             </div>
 
-            <h2 className="text-lg font-bold text-card-foreground">
-              {t('register.welcome')}
-            </h2>
-            <p className="text-muted-foreground text-xs mt-0.5">
-              {t('register.subtitle')}
-            </p>
+            <h2 className="text-lg font-bold text-card-foreground">{t('register.welcome')}</h2>
+            <p className="text-muted-foreground text-xs mt-0.5">{t('register.subtitle')}</p>
           </motion.div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
@@ -133,14 +128,6 @@ const Register = () => {
                 label={t('register.password')}
                 type="password"
                 placeholder={t('register.password')}
-                icon={Lock}
-              />
-              <FormInput
-                name="confirmPassword"
-                control={control}
-                label={t('register.confirmPassword')}
-                type="password"
-                placeholder={t('register.confirmPassword')}
                 icon={Lock}
               />
             </div>
