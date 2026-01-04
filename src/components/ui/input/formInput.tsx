@@ -1,20 +1,11 @@
-import { type Control, Controller, type FieldValues, type Path } from 'react-hook-form'
+import { Controller, type FieldValues } from 'react-hook-form'
 import { useState } from 'react'
-import { Eye, EyeOff, type LucideIcon } from 'lucide-react'
+import { Eye, EyeOff } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Input } from './input'
 import { Label } from '../label'
 import { cn } from '../../../lib/utils/shadUtils'
-
-interface IFormInputProps<T extends FieldValues> {
-  name: Path<T>
-  label: string
-  control: Control<T>
-  placeholder?: string
-  type: 'text' | 'email' | 'password' | 'number' | 'file'
-  icon?: LucideIcon
-  accept?: string
-}
+import type { FormInputProps } from '../../../types/input'
 
 const FormInput = <T extends FieldValues>({
   name,
@@ -24,7 +15,7 @@ const FormInput = <T extends FieldValues>({
   placeholder,
   icon: Icon,
   accept,
-}: IFormInputProps<T>) => {
+}: FormInputProps<T>) => {
   const [eyeOpen, setEyeOpen] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
 
