@@ -11,14 +11,16 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-        </Route>
+        {token && (
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/chat/:id" element={<Chat />} />
+          </Route>
+        )}
         {!token && (
           <>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/chat/:id" element={<Chat />} />
           </>
         )}
       </Routes>
