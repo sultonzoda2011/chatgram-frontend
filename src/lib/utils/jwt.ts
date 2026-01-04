@@ -1,11 +1,6 @@
 import { jwtDecode } from 'jwt-decode'
 import { getToken } from './cookie'
-
-export interface JwtPayload {
-  userId: string
-  iat: number
-  exp: number
-}
+import type { JwtPayload } from '../../types/auth'
 
 export function decodeJwt(token: string): JwtPayload | null {
   try {
