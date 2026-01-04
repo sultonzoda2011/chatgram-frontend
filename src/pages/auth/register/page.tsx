@@ -9,7 +9,7 @@ import { Lock, MessageCircle, User, Mail, ArrowRight, Loader2 } from 'lucide-rea
 import { useTranslation } from 'react-i18next'
 import { registerApi } from '../../../api/authApi'
 import { setToken } from '../../../lib/utils/cookie'
-import type { IRegister } from '../../../types/auth'
+import type { Register } from '../../../types/auth'
 import { RegisterSchema } from '../../../schemas/auth'
 import { LanguageSelect } from '../../../components/ui/language-select'
 import ModeToggle from '../../../components/ui/mode-toggle'
@@ -27,12 +27,12 @@ const Register = () => {
       setToken(response.data.token)
       navigate('/')
     },
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error.response?.data?.message || t('common.something_wrong'))
     },
   })
 
-  const { control, handleSubmit } = useForm<IRegister>({
+  const { control, handleSubmit } = useForm<Register>({
     defaultValues: {
       username: '',
       email: '',
@@ -42,7 +42,7 @@ const Register = () => {
     resolver: zodResolver(RegisterSchema),
   })
 
-  const onSubmit = (data: IRegister) => {
+  const onSubmit = (data: Register) => {
     mutate(data)
   }
 
