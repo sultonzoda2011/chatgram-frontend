@@ -31,6 +31,12 @@
         "email": "Invalid email address",
         "passwordMatch": "Passwords must match"
     },
+    "sidebar": {
+        "title": "Chats",
+        "searchPlaceholder": "Search messages...",
+        "noChats": "No chats found",
+        "noMessages": "No messages"
+    },
     "common": {
         "something_wrong": "Something went wrong"
     }

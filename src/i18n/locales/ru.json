@@ -31,6 +31,12 @@
         "email": "Неверный адрес электронной почты",
         "passwordMatch": "Пароли должны совпадать"
     },
+    "sidebar": {
+        "title": "Чаты",
+        "searchPlaceholder": "Поиск сообщений...",
+        "noChats": "Чаты не найдены",
+        "noMessages": "Нет сообщений"
+    },
     "common": {
         "something_wrong": "Что-то пошло не так"
     }

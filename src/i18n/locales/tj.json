@@ -31,6 +31,12 @@
         "email": "Суроғаи email нодуруст аст",
         "passwordMatch": "Рамзҳо бояд мувофиқат кунанд"
     },
+    "sidebar": {
+        "title": "Чатҳо",
+        "searchPlaceholder": "Ҷустуҷӯи паёмҳо...",
+        "noChats": "Чатҳо ёфт нашуданд",
+        "noMessages": "Паём нест"
+    },
     "common": {
         "something_wrong": "Чизе хато рафт"
     }
