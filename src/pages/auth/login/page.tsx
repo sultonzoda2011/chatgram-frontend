@@ -10,12 +10,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { loginApi } from '../../../api/authApi'
 import { setToken } from '../../../lib/utils/cookie'
-import type { Login } from '../../../types/auth'
 import { LoginSchema } from '../../../schemas/auth'
 import { LanguageSelect } from '../../../components/ui/language-select'
 import ModeToggle from '../../../components/ui/mode-toggle'
 import FormInput from '../../../components/ui/input/formInput'
 import { Button } from '../../../components/ui/button'
+import type { ILogin } from '../../../types/auth'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -24,24 +24,24 @@ const Login = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: loginApi,
     onSuccess: (response) => {
-      toast.success(response.message)
-      setToken(response.data.token)
+      toast.success(t('login.success'))
+      setToken(response.token)
       navigate('/')
     },
     onError: (error: { response?: { data?: { message?: string } } }) => {
-      toast.error(error.response?.data?.message || t('common.something_wrong'))
+      toast.error(error.response?.data?.message || t('login.something_wrong'))
     },
   })
 
-  const { control, handleSubmit } = useForm<Login>({
+  const { control, handleSubmit } = useForm<ILogin>({
     defaultValues: {
-      username: '',
+      email: '',
       password: '',
     },
     resolver: zodResolver(LoginSchema),
   })
 
-  const onSubmit = (data: Login) => {
+  const onSubmit = (data: ILogin) => {
     mutate(data)
   }
 
@@ -96,7 +96,7 @@ const Login = () => {
                 <MessageCircle size={22} className="text-primary-foreground" />
               </motion.div>
               <span className="text-xl font-black bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
-                ChatGram
+                SAO
               </span>
             </div>
 
@@ -112,10 +112,10 @@ const Login = () => {
             <div className="space-y-2.5">
               <FormInput
                 type="text"
-                name="username"
+                name="email"
                 control={control}
-                label={t('login.username')}
-                placeholder={t('login.username')}
+                label={t('login.email')}
+                placeholder={t('login.email')}
                 icon={User}
               />
               <FormInput
