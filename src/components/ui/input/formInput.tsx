@@ -58,7 +58,6 @@ const FormInput = <T extends FieldValues>({
             className="relative group"
             whileTap={{ scale: 0.995 }}
           >
-            {/* Icon container with animation */}
             {Icon && type !== 'file' && (
               <motion.div
                 className={cn(
@@ -104,11 +103,9 @@ const FormInput = <T extends FieldValues>({
                 aria-invalid={fieldState.invalid}
                 placeholder={placeholder ? `Enter ${placeholder}` : undefined}
                 onFocus={() => setIsFocused(true)}
-                onBlur={(e) => {
+                onBlur={() => {
                   field.onBlur()
                   setIsFocused(false)
-                  // Trigger default onBlur if exists
-                  if (e.target.onblur) e.target.onblur(e)
                 }}
                 className={cn(
                   type === 'password' && 'pr-12',
@@ -118,7 +115,6 @@ const FormInput = <T extends FieldValues>({
               />
             )}
 
-            {/* Password toggle with smooth animation */}
             {type === 'password' && (
               <motion.button
                 type="button"
@@ -145,7 +141,6 @@ const FormInput = <T extends FieldValues>({
               </motion.button>
             )}
 
-            {/* Focus glow effect */}
             <motion.div
               className="absolute inset-0 rounded-xl bg-primary/5 -z-10"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -157,7 +152,6 @@ const FormInput = <T extends FieldValues>({
             />
           </motion.div>
 
-          {/* Error message with enhanced animation */}
           <AnimatePresence>
             {fieldState.error && (
               <motion.div
