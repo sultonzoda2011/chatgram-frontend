@@ -1,20 +1,15 @@
-export interface Login {
-  username: string
+export interface ILogin {
+  email: string
   password: string
 }
 
-export interface Register {
+export interface IRegister {
   username: string
   email: string
   password: string
-  confirmPassword: string
 }
 
-export interface ChangePassword {
-  currentPassword: string
-  newPassword: string
-  confirmNewPassword: string
-}
+
 
 export interface JwtPayload {
   userId: string
