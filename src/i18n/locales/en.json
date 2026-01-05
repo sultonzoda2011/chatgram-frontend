@@ -34,5 +34,40 @@
     "minLength": "Must be at least {{min}} characters",
     "email": "Invalid email address",
     "passwordMatch": "Passwords must match"
+  },
+  "sidebar": {
+    "search": "Search users...",
+    "chats": "Chats",
+    "contacts": "Contacts",
+    "settings": "Settings",
+    "logout": "Logout",
+    "noChats": "No chats found",
+    "noUsers": "No users found"
+  },
+  "chat": {
+    "typeMessage": "Type a message...",
+    "send": "Send",
+    "online": "Online",
+    "lastSeen": "Last seen",
+    "noMessages": "No messages yet. Start the conversation!"
+  },
+  "profile": {
+    "title": "Profile Settings",
+    "editProfile": "Edit Profile",
+    "changePassword": "Change Password",
+    "username": "Username",
+    "fullName": "Full Name",
+    "email": "Email",
+    "save": "Save Changes",
+    "cancel": "Cancel"
+  },
+  "home": {
+    "welcome": "Welcome to ChatApp",
+    "subtitle": "Select a chat to start messaging or search for new friends."
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "back": "Back"
   }
 }
