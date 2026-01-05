@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 
-
 import { toast } from 'sonner'
 import { Link, useNavigate } from 'react-router-dom'
 import { Lock, User, MessageCircle, ArrowRight, Loader2 } from 'lucide-react'
@@ -25,7 +24,7 @@ const Login = () => {
     mutationFn: loginApi,
     onSuccess: (response) => {
       toast.success(t('login.success'))
-      setToken(response.token)
+      setToken(response.data.token)
       navigate('/')
     },
     onError: (error: { response?: { data?: { message?: string } } }) => {
@@ -35,7 +34,7 @@ const Login = () => {
 
   const { control, handleSubmit } = useForm<ILogin>({
     defaultValues: {
-      email: '',
+      username: '',
       password: '',
     },
     resolver: zodResolver(LoginSchema),
@@ -96,26 +95,22 @@ const Login = () => {
                 <MessageCircle size={22} className="text-primary-foreground" />
               </motion.div>
               <span className="text-xl font-black bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
-                SAO
+                ChatApp
               </span>
             </div>
 
-            <h2 className="text-lg font-bold text-card-foreground">
-              {t('login.welcome')}
-            </h2>
-            <p className="text-muted-foreground text-xs mt-0.5">
-              {t('login.subtitle')}
-            </p>
+            <h2 className="text-lg font-bold text-card-foreground">{t('login.welcome')}</h2>
+            <p className="text-muted-foreground text-xs mt-0.5">{t('login.subtitle')}</p>
           </motion.div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
             <div className="space-y-2.5">
               <FormInput
                 type="text"
-                name="email"
+                name="username"
                 control={control}
-                label={t('login.email')}
-                placeholder={t('login.email')}
+                label={t('login.username')}
+                placeholder={t('login.username')}
                 icon={User}
               />
               <FormInput
