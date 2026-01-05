@@ -49,7 +49,7 @@ export const LanguageSelect = () => {
                 className="relative flex items-center gap-2 px-3 py-2 rounded-xl bg-background/50 hover:bg-background/80 backdrop-blur-xl border-2 border-border/50 hover:border-primary/50 text-foreground shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group"
             >
                 <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"
+                    className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent skew-x-12"
                     initial={{ x: '-200%' }}
                     animate={{ x: isHovered ? '200%' : '-200%' }}
                     transition={{ duration: 0.6 }}
