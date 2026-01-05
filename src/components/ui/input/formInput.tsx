@@ -30,35 +30,29 @@ const FormInput = <T extends FieldValues>({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         >
-          <motion.div
-            animate={{ x: isFocused ? 4 : 0 }}
-            transition={{ duration: 0.2 }}
-          >
+          <motion.div animate={{ x: isFocused ? 4 : 0 }} transition={{ duration: 0.2 }}>
             <Label
               htmlFor={name}
               className={cn(
-                "text-sm font-medium transition-colors duration-300",
-                isFocused ? "text-primary" : "text-muted-foreground"
+                'text-sm font-medium transition-colors duration-300',
+                isFocused ? 'text-primary' : 'text-muted-foreground',
               )}
             >
               {label}
             </Label>
           </motion.div>
 
-          <motion.div
-            className="relative group"
-            whileTap={{ scale: 0.995 }}
-          >
+          <motion.div className="relative group" whileTap={{ scale: 0.995 }}>
             {Icon && type !== 'file' && (
               <motion.div
                 className={cn(
-                  "absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-300 z-10",
-                  isFocused ? "text-primary" : "text-muted-foreground/60",
-                  fieldState.error && "text-destructive"
+                  'absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-300 z-10',
+                  isFocused ? 'text-primary' : 'text-muted-foreground/60',
+                  fieldState.error && 'text-destructive',
                 )}
                 animate={{
                   scale: isFocused ? 1.1 : 1,
-                  rotate: isFocused ? [0, -5, 5, 0] : 0
+                  rotate: isFocused ? [0, -5, 5, 0] : 0,
                 }}
                 transition={{ duration: 0.3 }}
               >
@@ -82,7 +76,10 @@ const FormInput = <T extends FieldValues>({
                     setIsFocused(false)
                   }}
                   onFocus={() => setIsFocused(true)}
-                  onChange={(e) => field.onChange(e.target.files)}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    field.onChange(file)
+                  }}
                   className="w-full h-12 px-4 py-2 border-2 border-dashed border-input/50 rounded-xl bg-background/50 backdrop-blur-sm hover:border-primary/50 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all duration-300 cursor-pointer file:cursor-pointer"
                 />
               </motion.div>
@@ -101,7 +98,8 @@ const FormInput = <T extends FieldValues>({
                 className={cn(
                   type === 'password' && 'pr-12',
                   Icon && 'pl-12',
-                  fieldState.error && "border-destructive focus:border-destructive focus:ring-destructive/10"
+                  fieldState.error &&
+                    'border-destructive focus:border-destructive focus:ring-destructive/10',
                 )}
               />
             )}
@@ -110,9 +108,9 @@ const FormInput = <T extends FieldValues>({
               <motion.button
                 type="button"
                 className={cn(
-                  "absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-lg transition-all duration-300",
-                  "hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-primary/20",
-                  isFocused ? "text-primary" : "text-muted-foreground/60"
+                  'absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-lg transition-all duration-300',
+                  'hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-primary/20',
+                  isFocused ? 'text-primary' : 'text-muted-foreground/60',
                 )}
                 onClick={() => setEyeOpen((prev) => !prev)}
                 whileHover={{ scale: 1.1 }}
@@ -137,7 +135,7 @@ const FormInput = <T extends FieldValues>({
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{
                 opacity: isFocused ? 1 : 0,
-                scale: isFocused ? 1.02 : 0.95
+                scale: isFocused ? 1.02 : 0.95,
               }}
               transition={{ duration: 0.3 }}
             />
@@ -157,9 +155,7 @@ const FormInput = <T extends FieldValues>({
                   animate={{ scale: [1, 1.5, 1] }}
                   transition={{ duration: 1, repeat: Infinity }}
                 />
-                <p className="text-sm text-destructive font-medium">
-                  {fieldState.error.message}
-                </p>
+                <p className="text-sm text-destructive font-medium">{fieldState.error.message}</p>
               </motion.div>
             )}
           </AnimatePresence>
