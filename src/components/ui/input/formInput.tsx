@@ -4,8 +4,8 @@ import { Eye, EyeOff } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Input } from './input'
 import { Label } from '../label'
-import { cn } from '../../../lib/utils/shadUtils'
 import type { FormInputProps } from '../../../types/input'
+import { cn } from '../../../lib/utils/cn'
 
 const FormInput = <T extends FieldValues>({
   name,
@@ -99,7 +99,7 @@ const FormInput = <T extends FieldValues>({
                   type === 'password' && 'pr-12',
                   Icon && 'pl-12',
                   fieldState.error &&
-                    'border-destructive focus:border-destructive focus:ring-destructive/10',
+                  'border-destructive focus:border-destructive focus:ring-destructive/10',
                 )}
               />
             )}
