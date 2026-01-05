@@ -24,7 +24,7 @@ const Register = () => {
     mutationFn: registerApi,
     onSuccess: (response) => {
       toast.success(t('register.success'))
-      setToken(response.token)
+      setToken(response.data.token)
       navigate('/')
     },
     onError: () => {
@@ -96,7 +96,7 @@ const Register = () => {
                 <MessageCircle size={22} className="text-primary-foreground" />
               </motion.div>
               <span className="text-xl font-black bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
-                SAO
+               ChatApp
               </span>
             </div>
 
