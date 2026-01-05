@@ -31,7 +31,7 @@ const ModeToggle = () => {
         </AnimatePresence>
         {theme === 'dark' && (
           <motion.div
-            className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent"
+            className="absolute inset-0 bg-linear-to-tr from-primary/20 to-transparent"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
@@ -58,7 +58,7 @@ const ModeToggle = () => {
         </AnimatePresence>
         {theme === 'light' && (
           <motion.div
-            className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent"
+            className="absolute inset-0 bg-linear-to-tr from-primary/20 to-transparent"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
