@@ -14,13 +14,16 @@ export interface IProfile {
   username: string
   fullname: string
   email: string
-  avatar: string
+}
+export interface IProfileResponse {
+  status: string
+  message: string
+  data: IProfile
 }
 export interface IUpdateProfile {
   username: string
   fullname: string
   email: string
-  avatar: File
 }
 export interface IChangePassword {
   oldPassword: string
