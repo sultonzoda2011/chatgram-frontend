@@ -2,7 +2,7 @@
   "login": {
     "welcome": "Welcome Back",
     "subtitle": "Please sign in to continue",
-    "email": "Email",
+    "username": "Username",
     "password": "Password",
     "submit": "Sign In",
     "submitting": "Signing in...",
@@ -21,7 +21,6 @@
     "fullName": "Full Name",
     "username": "Username",
     "password": "Password",
-    "confirmPassword": "Confirm Password",
     "submit": "Sign Up",
     "submitting": "Signing up...",
     "hasAccount": "Already have an account?",
