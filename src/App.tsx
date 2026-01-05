@@ -11,6 +11,8 @@ const App = () => {
       <Routes>
         {token && (
           <Route path="/" element={<Layout />}>
+            <Route index element={<div>Home</div>} />
+            <Route path="*" element={<div>404</div>} />
           </Route>
         )}
         {!token && (
