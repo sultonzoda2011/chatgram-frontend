@@ -2,8 +2,11 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Home, ArrowLeft, Ghost } from 'lucide-react'
 import { Button } from '../../components/ui/button'
+import { useTranslation } from 'react-i18next'
 
 const NotFound = () => {
+  const { t } = useTranslation()
+
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-6">
       <motion.div
@@ -22,10 +25,9 @@ const NotFound = () => {
 
       <div className="space-y-2">
         <h1 className="text-6xl font-black text-primary">404</h1>
-        <h2 className="text-2xl font-bold">Oops! Page not found</h2>
+        <h2 className="text-2xl font-bold">{t('notFound.title')}</h2>
         <p className="text-muted-foreground max-w-md mx-auto">
-          The page you're looking for doesn't exist or has been moved.
-          Let's get you back on track!
+          {t('notFound.description')}
         </p>
       </div>
 
@@ -33,13 +35,13 @@ const NotFound = () => {
         <Button asChild variant="outline" className="rounded-xl px-6">
           <Link to={-1 as any} className="flex items-center gap-2">
             <ArrowLeft size={18} />
-            Go Back
+            {t('notFound.goBack')}
           </Link>
         </Button>
         <Button asChild className="rounded-xl px-6 shadow-lg shadow-primary/20">
           <Link to="/" className="flex items-center gap-2">
             <Home size={18} />
-            Back to Home
+            {t('notFound.backHome')}
           </Link>
         </Button>
       </div>
