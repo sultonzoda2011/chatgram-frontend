@@ -1,46 +1,46 @@
 {
   "login": {
-    "welcome": "Welcome Back",
-    "subtitle": "Please sign in to continue",
+    "welcome": "Welcome back",
+    "subtitle": "Sign in to your account",
     "username": "Username",
     "password": "Password",
-    "submit": "Sign In",
+    "submit": "Sign in",
     "submitting": "Signing in...",
-    "noAccount": "Don't have an account?",
-    "createAccount": "Create Account",
+    "noAccount": "No account?",
+    "createAccount": "Create account",
     "or": "or",
     "rememberMe": "Remember me",
     "forgotPassword": "Forgot password?",
-    "success": "Logged in successfully",
+    "success": "Login successful",
     "something_wrong": "Something went wrong"
   },
   "register": {
-    "welcome": "Create Account",
+    "welcome": "Create account",
     "subtitle": "Sign up to get started",
     "email": "Email",
-    "fullName": "Full Name",
+    "fullName": "Full name",
     "username": "Username",
     "password": "Password",
-    "submit": "Sign Up",
+    "submit": "Sign up",
     "submitting": "Signing up...",
     "hasAccount": "Already have an account?",
-    "signIn": "Sign In",
+    "signIn": "Sign in",
     "or": "or",
-    "success": "Registered successfully",
+    "success": "Registration successful",
     "something_wrong": "Something went wrong"
   },
   "validation": {
     "required": "This field is required",
-    "minLength": "Must be at least {{min}} characters",
-    "email": "Invalid email address",
-    "passwordMatch": "Passwords must match"
+    "minLength": "At least {{min}} characters",
+    "email": "Invalid email",
+    "passwordMatch": "Passwords do not match"
   },
   "sidebar": {
     "search": "Search users...",
     "chats": "Chats",
     "contacts": "Contacts",
     "settings": "Settings",
-    "logout": "Logout",
+    "logout": "Log out",
     "noChats": "No chats found",
     "noUsers": "No users found"
   },
@@ -49,25 +49,66 @@
     "send": "Send",
     "online": "Online",
     "lastSeen": "Last seen",
-    "noMessages": "No messages yet. Start the conversation!"
+    "noMessages": "No messages yet. Start chatting!"
   },
   "profile": {
-    "title": "Profile Settings",
-    "editProfile": "Edit Profile",
-    "changePassword": "Change Password",
+    "title": "Profile settings",
+    "editProfile": "Edit profile",
+    "changePassword": "Change password",
     "username": "Username",
-    "fullName": "Full Name",
+    "fullName": "Full name",
     "email": "Email",
-    "save": "Save Changes",
-    "cancel": "Cancel"
+    "save": "Save changes",
+    "cancel": "Cancel",
+    "saveSuccess": "Profile updated",
+    "passwordSuccess": "Password changed",
+    "editSubtitle": "Keep your profile up to date.",
+    "fullNamePlaceholder": "Enter your full name",
+    "usernamePlaceholder": "Choose a username",
+    "emailPlaceholder": "your@email.com",
+    "passwordSubtitle": "Use a strong password to protect your account.",
+    "oldPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm new password",
+    "settings": "App settings",
+    "settingsSubtitle": "Customize your app and account.",
+    "language": "Language",
+    "languageSubtitle": "Choose app language.",
+    "appearance": "Appearance",
+    "appearanceSubtitle": "Choose light or dark theme."
   },
   "home": {
-    "welcome": "Welcome to ChatApp",
-    "subtitle": "Select a chat to start messaging or search for new friends."
+    "welcome": "Welcome to ChatGram",
+    "subtitle": "Choose a chat or find new friends.",
+    "features": {
+      "messaging": {
+        "title": "Fast messaging",
+        "desc": "Chat in real time with friends and coworkers."
+      },
+      "search": {
+        "title": "Easy search",
+        "desc": "Find users by username or name."
+      },
+      "groups": {
+        "title": "Group chats",
+        "desc": "Chat with many people at once (coming soon)."
+      },
+      "secure": {
+        "title": "Secure",
+        "desc": "Your data is safe and protected."
+      }
+    }
   },
+  "enter": "Enter ",
   "common": {
     "loading": "Loading...",
     "error": "An error occurred",
-    "back": "Back"
+    "back": "Back"  
+  },
+  "notFound": {
+    "title": "Oops! Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved. Let's get you back on track!",
+    "goBack": "Go Back",
+    "backHome": "Back to Home"
   }
 }
