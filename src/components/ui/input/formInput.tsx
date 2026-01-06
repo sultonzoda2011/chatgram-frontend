@@ -6,6 +6,9 @@ import { Input } from './input'
 import { Label } from '../label'
 import type { FormInputProps } from '../../../types/input'
 import { cn } from '../../../lib/utils/cn'
+import { useTranslation } from 'react-i18next'
+
+import { Button } from '../button'
 
 const FormInput = <T extends FieldValues>({
   name,
@@ -18,7 +21,7 @@ const FormInput = <T extends FieldValues>({
 }: FormInputProps<T>) => {
   const [eyeOpen, setEyeOpen] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
-
+  const { t } = useTranslation()
   return (
     <Controller
       name={name}
@@ -66,7 +69,7 @@ const FormInput = <T extends FieldValues>({
                 whileHover={{ scale: 1.01 }}
                 transition={{ duration: 0.2 }}
               >
-                <input
+                <Input
                   type="file"
                   name={field.name}
                   ref={field.ref}
@@ -89,7 +92,7 @@ const FormInput = <T extends FieldValues>({
                 type={type === 'password' && eyeOpen ? 'text' : type}
                 value={field.value ?? ''}
                 aria-invalid={fieldState.invalid}
-                placeholder={placeholder ? `Enter ${placeholder}` : undefined}
+                placeholder={placeholder ? t('enter', { field: placeholder }) : undefined}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => {
                   field.onBlur()
@@ -102,19 +105,19 @@ const FormInput = <T extends FieldValues>({
                   'border-destructive focus:border-destructive focus:ring-destructive/10',
                 )}
               />
+
             )}
 
             {type === 'password' && (
-              <motion.button
+              <Button
                 type="button"
+                variant="ghost"
+                size="icon-sm"
                 className={cn(
-                  'absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-lg transition-all duration-300',
-                  'hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-primary/20',
+                  'absolute right-2 top-1/2 -translate-y-1/2 transition-all duration-300 shadow-none hover:bg-primary/10',
                   isFocused ? 'text-primary' : 'text-muted-foreground/60',
                 )}
                 onClick={() => setEyeOpen((prev) => !prev)}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
               >
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -127,7 +130,7 @@ const FormInput = <T extends FieldValues>({
                     {eyeOpen ? <Eye size={20} /> : <EyeOff size={20} />}
                   </motion.div>
                 </AnimatePresence>
-              </motion.button>
+              </Button>
             )}
 
             <motion.div
