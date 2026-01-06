@@ -1,20 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
-import { getChatList } from '../../api/chatApi'
+import {  getChatList } from '../../api/chatApi'
 import { getUsers } from '../../api/userApi'
 import type { IChatsResponse } from '../../types/chat'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState, useMemo } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
-import {
-  Search,
-  LogOut,
-  ChevronLeft,
-  ChevronRight,
-  Settings,
-  Menu,
-  X
-} from 'lucide-react'
+import { Search, LogOut, ChevronLeft, ChevronRight, Settings, Menu, X } from 'lucide-react'
 import { removeToken } from '../../lib/utils/cookie'
 import { cn } from '../../lib/utils/cn'
 import { Button } from '../ui/button'
@@ -30,22 +22,17 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
 
-  const {
-    data: dataChats,
-    isLoading: isLoadingChats,
-  } = useQuery<IChatsResponse>({
+  const { data: dataChats, isLoading: isLoadingChats } = useQuery<IChatsResponse>({
     queryKey: ['chatList'],
     queryFn: getChatList,
   })
 
-  const {
-    data: dataUsers,
-    isLoading: isLoadingUsers,
-  } = useQuery<IChatsResponse>({
+  const { data: dataUsers, isLoading: isLoadingUsers } = useQuery<IChatsResponse>({
     queryKey: ['users', query],
     queryFn: () => getUsers(query),
     enabled: query.length > 0,
   })
+
 
   const handleLogout = () => {
     removeToken()
@@ -84,10 +71,10 @@ const Sidebar = () => {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder={isCollapsed && !isMobileOpen ? "" : t('sidebar.search')}
+            placeholder={isCollapsed && !isMobileOpen ? '' : t('sidebar.search')}
             className={cn(
-              "h-10 pl-10 pr-4 text-sm transition-all",
-              isCollapsed && !isMobileOpen && "opacity-0 group-hover/search:opacity-100"
+              'h-10 pl-10 pr-4 text-sm transition-all',
+              isCollapsed && !isMobileOpen && 'opacity-0 group-hover/search:opacity-100',
             )}
           />
         </div>
@@ -108,16 +95,18 @@ const Sidebar = () => {
           <div className="flex gap-1">
             <Button
               variant="ghost"
-              size={isCollapsed && !isMobileOpen ? "icon" : "default"}
+              size={isCollapsed && !isMobileOpen ? 'icon' : 'default'}
               onClick={handleLogout}
               className={cn(
-                "flex-1 text-destructive hover:bg-destructive/10 rounded-xl",
-                isCollapsed && !isMobileOpen && "aspect-square p-0 flex-none"
+                'flex-1 text-destructive hover:bg-destructive/10 rounded-xl',
+                isCollapsed && !isMobileOpen && 'aspect-square p-0 flex-none',
               )}
               title={t('sidebar.logout')}
             >
               <LogOut size={18} />
-              {(!isCollapsed || isMobileOpen) && <span className="text-xs font-semibold ml-2">{t('sidebar.logout')}</span>}
+              {(!isCollapsed || isMobileOpen) && (
+                <span className="text-xs font-semibold ml-2">{t('sidebar.logout')}</span>
+              )}
             </Button>
             {(!isCollapsed || isMobileOpen) && (
               <Button
@@ -166,13 +155,13 @@ const Sidebar = () => {
 
       <motion.div
         animate={{
-          x: isMobileOpen ? 0 : (window.innerWidth < 1024 ? -320 : 0),
-          width: isCollapsed ? 80 : 320
+          x: isMobileOpen ? 0 : window.innerWidth < 1024 ? -320 : 0,
+          width: isCollapsed ? 80 : 320,
         }}
-        transition={{ type: "spring", damping: 20, stiffness: 100 }}
+        transition={{ type: 'spring', damping: 20, stiffness: 100 }}
         className={cn(
-          "h-full border-r border-border/50 flex flex-col relative z-40 group shrink-0",
-          "fixed lg:relative inset-y-0 left-0 lg:left-auto"
+          'h-full border-r border-border/50 flex flex-col relative z-40 group shrink-0',
+          'fixed lg:relative inset-y-0 left-0 lg:left-auto',
         )}
       >
         {sidebarContent}

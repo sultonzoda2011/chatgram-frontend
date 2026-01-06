@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { getMessage, sendMessage } from '../../../api/chatApi'
+import { deleteMessage, getMessage, sendMessage, updateMessage } from '../../../api/chatApi'
 import { useParams, useNavigate } from 'react-router-dom'
 import type { IMessageResponse, IChatsResponse } from '../../../types/chat'
 import { useState, useRef, useEffect } from 'react'
@@ -11,7 +11,9 @@ import {
   ArrowLeft,
   Loader2,
   User,
-  MessageCircle
+  MessageCircle,
+  Trash2,
+  Edit,
 } from 'lucide-react'
 import { cn } from '../../../lib/utils/cn'
 import { Button } from '../../../components/ui/button'
@@ -23,7 +25,26 @@ const Chat = () => {
   const queryClient = useQueryClient()
   const { id } = useParams()
   const [message, setMessage] = useState('')
+  const [editId, setEditId] = useState<number | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
+
+  const { mutate: deleteMutate } = useMutation({
+    mutationFn: deleteMessage,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['chat', id] })
+      queryClient.invalidateQueries({ queryKey: ['chatList'] })
+    },
+  })
+
+  const { mutate: updateMutate } = useMutation({
+    mutationFn: updateMessage,
+    onSuccess: () => {
+      setMessage('')
+      setEditId(null)
+      queryClient.invalidateQueries({ queryKey: ['chat', id] })
+      queryClient.invalidateQueries({ queryKey: ['chatList'] })
+    },
+  })
 
   const { data: messagesData, isLoading: isLoadingMessages } = useQuery<IMessageResponse>({
     queryKey: ['chat', id],
@@ -45,7 +66,7 @@ const Chat = () => {
     },
   })
 
-  const currentUser = chatsData?.data.find(c => String(c.id) === id)
+  const currentUser = chatsData?.data.find((c) => String(c.id) === id)
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -56,7 +77,11 @@ const Chat = () => {
   const handleSend = (e?: React.FormEvent) => {
     e?.preventDefault()
     if (!message.trim() || isSending) return
-    send({ toUserId: Number(id), content: message })
+    if (editId) {
+      updateMutate({ messageId: editId, content: message })
+    } else {
+      send({ toUserId: Number(id), content: message })
+    }
   }
 
   return (
@@ -79,14 +104,13 @@ const Chat = () => {
             </div>
           </div>
           <div className="min-w-0">
-            <h2 className="text-sm font-bold leading-none mb-1 truncate max-w-[150px] sm:max-w-[300px]">
+            <h2 className="text-sm font-bold leading-none mb-1 truncate max-w-37.5 sm:max-w-[300px]">
               {currentUser?.fullname || `User #${id}`}
             </h2>
             <p className="text-[10px] text-green-500 font-medium">{t('chat.online')}</p>
           </div>
         </div>
         <div className="flex items-center gap-1">
-      
           <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground">
             <MoreVertical size={18} />
           </Button>
@@ -111,27 +135,49 @@ const Chat = () => {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ duration: 0.2, delay: Math.min(idx * 0.05, 0.5) }}
                 className={cn(
-                  "flex items-end gap-2 max-w-[85%] sm:max-w-[70%]",
-                  isMe ? "ml-auto flex-row-reverse" : "mr-auto"
+                  'relative group flex items-end gap-2 max-w-[85%] sm:max-w-[70%]',
+                  isMe ? 'ml-auto flex-row-reverse' : 'mr-auto',
                 )}
               >
-                {!isMe && (
-                  <div className="w-6 h-6 rounded-full bg-secondary flex-shrink-0 flex items-center justify-center text-[10px] font-bold border border-border/50">
-                    {currentUser?.fullname?.charAt(0).toUpperCase()}
+                {isMe && (
+                  <div className="absolute -top-3 right-0 hidden group-hover:flex items-center gap-1 px-1.5 py-1 rounded-full bg-background/70 backdrop-blur-md border border-border/50 shadow-lg">
+                    <button
+                      onClick={() => {
+                        setMessage(msg.content)
+                        setEditId(msg.id)
+                      }}
+                      className="flex items-center justify-center w-7 h-7 rounded-full text-muted-foreground hover:text-white hover:bg-primary transition-all active:scale-95"
+                    >
+                      <Edit size={14} />
+                    </button>
+                    <button
+                      onClick={() => deleteMutate(msg.id)}
+                      className="flex items-center justify-center w-7 h-7 rounded-full text-muted-foreground hover:text-white hover:bg-red-500 transition-all active:scale-95"
+                    >
+                      <Trash2 size={14} />
+                    </button>
                   </div>
                 )}
-                <div className={cn(
-                  "px-4 py-2 rounded-2xl text-sm shadow-sm",
-                  isMe
-                    ? "bg-primary text-primary-foreground rounded-br-none"
-                    : "bg-card border border-border/50 rounded-bl-none"
-                )}>
-                  <p className="break-words leading-relaxed">{msg.content}</p>
-                  <p className={cn(
-                    "text-[8px] mt-1 text-right opacity-60 font-medium",
-                    isMe ? "text-primary-foreground" : "text-muted-foreground"
-                  )}>
-                    {new Date(msg.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+
+                <div
+                  className={cn(
+                    'px-4 py-2 rounded-2xl text-sm shadow-sm',
+                    isMe
+                      ? 'bg-primary text-primary-foreground rounded-br-none'
+                      : 'bg-card border border-border/50 rounded-bl-none',
+                  )}
+                >
+                  <p className="wrap-break-word leading-relaxed">{msg.content}</p>
+                  <p
+                    className={cn(
+                      'text-[8px] mt-1 text-right opacity-60 font-medium',
+                      isMe ? 'text-primary-foreground' : 'text-muted-foreground',
+                    )}
+                  >
+                    {new Date(msg.date).toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
                   </p>
                 </div>
               </motion.div>
@@ -152,10 +198,7 @@ const Chat = () => {
       </div>
 
       <div className="p-4 bg-background/80 backdrop-blur-md border-t border-border/50">
-        <form
-          onSubmit={handleSend}
-          className="relative flex items-center gap-3 max-w-4xl mx-auto"
-        >
+        <form onSubmit={handleSend} className="relative flex items-center gap-3 max-w-4xl mx-auto">
           <div className="relative flex-1 group">
             <Input
               type="text"
@@ -170,14 +213,16 @@ const Chat = () => {
             disabled={!message.trim() || isSending}
             size="icon"
             className={cn(
-              "w-12 h-12 rounded-2xl shadow-lg transition-all active:scale-95",
-              !message.trim() || isSending ? "grayscale opacity-50 shadow-none" : "shadow-primary/20"
+              'w-12 h-12 rounded-2xl shadow-lg transition-all active:scale-95',
+              !message.trim() || isSending
+                ? 'grayscale opacity-50 shadow-none'
+                : 'shadow-primary/20',
             )}
           >
             {isSending ? (
               <Loader2 className="w-5 h-5 animate-spin" />
             ) : (
-              <Send size={18} className={cn(message.trim() ? "translate-x-0.5" : "")} />
+              <Send size={18} className={cn(message.trim() ? 'translate-x-0.5' : '')} />
             )}
           </Button>
         </form>
@@ -187,4 +232,3 @@ const Chat = () => {
 }
 
 export default Chat
-
