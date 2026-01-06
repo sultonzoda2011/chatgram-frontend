@@ -7,6 +7,10 @@ import { changePassword } from '../../../../api/authApi'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ChangePasswordSchema } from '../../../../schemas/auth'
 
+import { useTranslation } from 'react-i18next'
+
+import { Button } from '../../button'
+
 interface IChangePasswordModalProps {
   changePasswordModalOpen: boolean
   setChangePasswordModalOpen: (value: boolean) => void
@@ -16,6 +20,7 @@ const ChangePasswordModal = ({
   changePasswordModalOpen,
   setChangePasswordModalOpen,
 }: IChangePasswordModalProps) => {
+  const { t } = useTranslation()
   const { control, handleSubmit, reset } = useForm<IChangePassword>({
     resolver: zodResolver(ChangePasswordSchema),
     defaultValues: {
@@ -45,15 +50,15 @@ const ChangePasswordModal = ({
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <h2>Change Password</h2>
+        <h2>{t('profile.changePassword')}</h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormInput
             type="password"
             control={control}
             name="oldPassword"
-            label="Old Password"
-            placeholder="old password"
+            label={t('profile.oldPassword')}
+            placeholder="••••••••"
             icon={Lock}
           />
 
@@ -61,8 +66,8 @@ const ChangePasswordModal = ({
             type="password"
             control={control}
             name="newPassword"
-            label="New Password"
-            placeholder="new password"
+            label={t('profile.newPassword')}
+            placeholder="••••••••"
             icon={Lock}
           />
 
@@ -70,16 +75,16 @@ const ChangePasswordModal = ({
             control={control}
             type="password"
             name="confirmPassword"
-            label="Confirm Password"
-            placeholder="confirm password"
+            label={t('profile.confirmPassword')}
+            placeholder="••••••••"
             icon={Lock}
           />
 
           <div className="modal-actions">
-            <button type="submit">Save</button>
-            <button type="button" onClick={() => setChangePasswordModalOpen(false)}>
-              Cancel
-            </button>
+            <Button type="submit">{t('profile.save')}</Button>
+            <Button variant="ghost" type="button" onClick={() => setChangePasswordModalOpen(false)}>
+              {t('profile.cancel')}
+            </Button>
           </div>
         </form>
       </div>
