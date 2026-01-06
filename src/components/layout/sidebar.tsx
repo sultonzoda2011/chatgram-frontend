@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
-import {  getChatList } from '../../api/chatApi'
+import { getChatList } from '../../api/chatApi'
 import { getUsers } from '../../api/userApi'
 import type { IChatsResponse } from '../../types/chat'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState, useMemo } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
-import { Search, LogOut, ChevronLeft, ChevronRight, Settings, Menu, X } from 'lucide-react'
+import { Search, LogOut, ChevronLeft, ChevronRight, Settings, Menu } from 'lucide-react'
 import { removeToken } from '../../lib/utils/cookie'
 import { cn } from '../../lib/utils/cn'
 import { Button } from '../ui/button'
@@ -33,7 +33,6 @@ const Sidebar = () => {
     enabled: query.length > 0,
   })
 
-
   const handleLogout = () => {
     removeToken()
     navigate('/login')
@@ -52,16 +51,6 @@ const Sidebar = () => {
     <div className="h-full flex flex-col bg-card/50 backdrop-blur-xl">
       <div className="p-4 flex items-center justify-between overflow-hidden">
         <Logo isCollapsed={isCollapsed && !isMobileOpen} />
-        {isMobileOpen && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsMobileOpen(false)}
-            className="lg:hidden"
-          >
-            <X size={20} />
-          </Button>
-        )}
       </div>
 
       <div className="px-4 mb-4">
@@ -130,16 +119,18 @@ const Sidebar = () => {
 
   return (
     <>
-      <div className="lg:hidden absolute top-4 left-4 z-50">
-        <Button
-          variant="secondary"
-          size="icon"
-          className="rounded-full shadow-lg"
-          onClick={() => setIsMobileOpen(true)}
-        >
-          <Menu size={20} />
-        </Button>
-      </div>
+      {!isMobileOpen && (
+        <div className="lg:hidden absolute top-4 left-4 z-50">
+          <Button
+            variant="secondary"
+            size="icon"
+            className="rounded-full shadow-lg"
+            onClick={() => setIsMobileOpen(true)}
+          >
+            <Menu size={20} />
+          </Button>
+        </div>
+      )}
 
       <AnimatePresence>
         {isMobileOpen && (

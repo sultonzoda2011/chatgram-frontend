@@ -63,6 +63,7 @@ const Chat = () => {
       setMessage('')
       queryClient.invalidateQueries({ queryKey: ['chat', id] })
       queryClient.invalidateQueries({ queryKey: ['chatList'] })
+    
     },
   })
 
@@ -104,7 +105,7 @@ const Chat = () => {
             </div>
           </div>
           <div className="min-w-0">
-            <h2 className="text-sm font-bold leading-none mb-1 truncate max-w-37.5 sm:max-w-[300px]">
+            <h2 className="text-sm font-bold leading-none mb-1 truncate max-w-37.5 sm:max-w-75">
               {currentUser?.fullname || `User #${id}`}
             </h2>
             <p className="text-[10px] text-green-500 font-medium">{t('chat.online')}</p>
