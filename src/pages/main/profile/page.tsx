@@ -127,7 +127,7 @@ const Profile = () => {
               </div>
 
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 rounded-2xl bg-secondary/30 border border-border/50">
+                <div className="flex items-center justify-between py-3 px-1 rounded-2xl bg-secondary/30 border border-border/50">
                   <div className="flex items-center gap-4">
                     <div className="p-2.5 rounded-xl bg-primary/10 text-primary">
                       <Globe size={20} />
@@ -205,5 +205,3 @@ const Profile = () => {
 }
 
 export default Profile
-
-
