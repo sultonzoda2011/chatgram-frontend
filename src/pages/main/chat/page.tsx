@@ -3,13 +3,11 @@ import { getMessage, sendMessage } from '../../../api/chatApi'
 import { useParams, useNavigate } from 'react-router-dom'
 import type { IMessageResponse, IChatsResponse } from '../../../types/chat'
 import { useState, useRef, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import {
   Send,
   MoreVertical,
-  Phone,
-  Video,
   ArrowLeft,
   Loader2,
   User,
@@ -79,7 +77,6 @@ const Chat = () => {
                 {currentUser?.fullname?.charAt(0).toUpperCase() || <User size={18} />}
               </span>
             </div>
-            <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-background rounded-full" />
           </div>
           <div className="min-w-0">
             <h2 className="text-sm font-bold leading-none mb-1 truncate max-w-[150px] sm:max-w-[300px]">
@@ -89,12 +86,7 @@ const Chat = () => {
           </div>
         </div>
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground">
-            <Phone size={18} />
-          </Button>
-          <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground">
-            <Video size={18} />
-          </Button>
+      
           <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground">
             <MoreVertical size={18} />
           </Button>
