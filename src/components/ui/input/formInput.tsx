@@ -92,7 +92,7 @@ const FormInput = <T extends FieldValues>({
                 type={type === 'password' && eyeOpen ? 'text' : type}
                 value={field.value ?? ''}
                 aria-invalid={fieldState.invalid}
-                placeholder={placeholder ? t('enter', { field: placeholder }) : undefined}
+                placeholder={placeholder ? `${t('common.enter')} ${placeholder}` : undefined}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => {
                   field.onBlur()
@@ -102,10 +102,9 @@ const FormInput = <T extends FieldValues>({
                   type === 'password' && 'pr-12',
                   Icon && 'pl-12',
                   fieldState.error &&
-                  'border-destructive focus:border-destructive focus:ring-destructive/10',
+                    'border-destructive focus:border-destructive focus:ring-destructive/10',
                 )}
               />
-
             )}
 
             {type === 'password' && (

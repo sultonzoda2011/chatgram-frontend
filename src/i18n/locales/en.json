@@ -99,11 +99,11 @@
       }
     }
   },
-  "enter": "Enter ",
   "common": {
+    "enter": "Enter",
     "loading": "Loading...",
     "error": "An error occurred",
-    "back": "Back"  
+    "back": "Back"
   },
   "notFound": {
     "title": "Oops! Page not found",
