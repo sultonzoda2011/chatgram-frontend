@@ -1,19 +1,24 @@
-import { Navigate, Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 import { getToken } from '../../lib/utils/cookie'
 import Sidebar from './sidebar'
 import { motion } from 'framer-motion'
 import { Toaster } from 'sonner'
 
 const Layout = () => {
+  const navigate = useNavigate()
   const token = getToken()
 
-  if (!token) {
-    return <Navigate to="/login" />
-  }
+  useEffect(() => {
+    if (!token) {
+      navigate('/login')
+    }
+  }, [token, navigate])
+
+  if (!token) return null
 
   return (
     <div className='flex h-screen w-full overflow-hidden bg-background text-foreground transition-colors duration-300'>
-      {/* Background decoration */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <motion.div
           className="absolute w-[500px] h-[500px] rounded-full bg-primary/5 blur-[120px]"
