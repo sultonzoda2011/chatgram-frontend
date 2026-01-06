@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 
 import { toast } from 'sonner'
 import { Link, useNavigate } from 'react-router-dom'
-import { Lock, User, MessageCircle, ArrowRight, Loader2 } from 'lucide-react'
+import { Lock, User, ArrowRight, Loader2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { loginApi } from '../../../api/authApi'
@@ -14,6 +14,7 @@ import { LanguageSelect } from '../../../components/ui/language-select'
 import ModeToggle from '../../../components/ui/mode-toggle'
 import FormInput from '../../../components/ui/input/formInput'
 import { Button } from '../../../components/ui/button'
+import { Logo } from '../../../components/ui/logo'
 import type { ILogin } from '../../../types/auth'
 
 const Login = () => {
@@ -86,18 +87,7 @@ const Login = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
           >
-            <div className="flex justify-center items-center gap-2 mb-3">
-              <motion.div
-                className="p-2 rounded-xl bg-linear-to-br from-primary to-primary/80 shadow-md shadow-primary/20"
-                whileHover={{ rotate: [0, -5, 5, 0] }}
-                transition={{ duration: 0.3 }}
-              >
-                <MessageCircle size={22} className="text-primary-foreground" />
-              </motion.div>
-              <span className="text-xl font-black bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
-                ChatApp
-              </span>
-            </div>
+            <Logo className="justify-center mb-3" />
 
             <h2 className="text-lg font-bold text-card-foreground">{t('login.welcome')}</h2>
             <p className="text-muted-foreground text-xs mt-0.5">{t('login.subtitle')}</p>
