@@ -8,6 +8,10 @@ import { getProfile, updateProfile } from '../../../../api/authApi'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UpdateProfileSchema } from '../../../../schemas/auth'
 
+import { useTranslation } from 'react-i18next'
+
+import { Button } from '../../button'
+
 interface IUpdateProfileModalProps {
   updateProfileModalOpen: boolean
   setUpdateProfileModalOpen: (value: boolean) => void
@@ -17,6 +21,7 @@ const UpdateProfileModal = ({
   updateProfileModalOpen,
   setUpdateProfileModalOpen,
 }: IUpdateProfileModalProps) => {
+  const { t } = useTranslation()
   const { control, handleSubmit, reset, setValue } = useForm<IUpdateProfile>({
     resolver: zodResolver(UpdateProfileSchema),
     defaultValues: {
@@ -59,15 +64,15 @@ const UpdateProfileModal = ({
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <h2>Update Profile</h2>
+        <h2>{t('profile.editProfile')}</h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormInput
             type="text"
             control={control}
             name="username"
-            label="Username"
-            placeholder="username"
+            label={t('profile.username')}
+            placeholder={t('profile.usernamePlaceholder')}
             icon={User}
           />
 
@@ -75,25 +80,25 @@ const UpdateProfileModal = ({
             type="text"
             control={control}
             name="fullname"
-            label="Full name"
-            placeholder="full name"
+            label={t('profile.fullName')}
+            placeholder={t('profile.fullNamePlaceholder')}
             icon={User}
           />
 
           <FormInput
             control={control}
             name="email"
-            label="Email"
-            placeholder="email"
+            label={t('profile.email')}
+            placeholder={t('profile.emailPlaceholder')}
             type="email"
             icon={Mail}
           />
 
           <div className="modal-actions">
-            <button type="submit">Save</button>
-            <button type="button" onClick={() => setUpdateProfileModalOpen(false)}>
-              Cancel
-            </button>
+            <Button type="submit">{t('profile.save')}</Button>
+            <Button variant="ghost" type="button" onClick={() => setUpdateProfileModalOpen(false)}>
+              {t('profile.cancel')}
+            </Button>
           </div>
         </form>
       </div>
