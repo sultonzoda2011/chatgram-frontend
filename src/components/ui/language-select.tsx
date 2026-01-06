@@ -47,7 +47,7 @@ export const LanguageSelect = () => {
                 onClick={toggleOpen}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                className="relative flex items-center gap-2 px-3 py-2 h-auto rounded-xl bg-background/50 hover:bg-background/80 backdrop-blur-xl border-2 border-border/50 hover:border-primary/50 text-foreground shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group"
+                className="relative flex items-center gap-2 px-3 py-3 h-auto rounded-xl bg-background/50  hover:bg-background/80 backdrop-blur-xl border-2 border-border/50 hover:border-primary/50 text-foreground shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group"
             >
                 <motion.button
                     whileHover={{ scale: 1.02 }}
@@ -76,7 +76,7 @@ export const LanguageSelect = () => {
                         <img
                             src={currentLang.flag}
                             alt={currentLang.label}
-                            className="w-6 h-4 object-cover rounded-sm shadow-md ring-1 ring-black/10"
+                            className="w-6 h-4 object-cover rounded-[2px] shadow-md ring-1 ring-black/10"
                         />
                         <motion.div
                             className="absolute inset-0 rounded-sm bg-primary/20 blur-sm -z-10"
