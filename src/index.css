@@ -121,3 +121,33 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .modal-overlay {
+    @apply fixed inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-md animate-in fade-in duration-300;
+  }
+
+  .modal {
+    @apply bg-card/80 backdrop-blur-2xl border border-border/50 rounded-[2.5rem] p-8 md:p-10 shadow-2xl shadow-primary/10 w-full max-w-lg mx-4 animate-in zoom-in-95 slide-in-from-bottom-5 duration-300;
+  }
+
+  .modal h2 {
+    @apply text-2xl font-black mb-6 text-foreground/90;
+  }
+
+  .modal form {
+    @apply space-y-6;
+  }
+
+  .modal-actions {
+    @apply flex items-center justify-end gap-3 mt-8;
+  }
+
+  .modal-actions button[type="submit"] {
+    @apply h-12 px-8 bg-primary text-primary-foreground font-black rounded-2xl shadow-lg shadow-primary/25 hover:shadow-primary/40 active:scale-95 transition-all;
+  }
+
+  .modal-actions button[type="button"] {
+    @apply h-12 px-8 bg-secondary/50 text-foreground font-bold rounded-2xl hover:bg-secondary transition-all;
+  }
+}
