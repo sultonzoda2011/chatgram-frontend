@@ -6,6 +6,8 @@ workflows:
       node: stable
       vars:
         NODE_ENV: production
+        VITE_API_URL: $VITE_API_URL
+        VITE_API_URL_IMAGE: $VITE_API_URL_IMAGE
     scripts:
       - name: Install dependencies
         script: npm install --legacy-peer-deps
