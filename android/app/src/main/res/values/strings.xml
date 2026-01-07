@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">ChatGram</string>
-    <string name="title_activity_main">ChatGram</string>
-    <string name="package_name">com.chatgram.app</string>
-    <string name="custom_url_scheme">com.chatgram.app</string>
-</resources>
