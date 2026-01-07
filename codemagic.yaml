@@ -2,9 +2,6 @@ workflows:
   build-android:
     name: Build React Web to Android APK
     max_build_duration: 60
-    machine:
-      type: linux
-      image: ubuntu-22.04
     environment:
       node: stable
       vars:
@@ -12,7 +9,7 @@ workflows:
         VITE_API_URL: $VITE_API_URL
         VITE_API_URL_IMAGE: $VITE_API_URL_IMAGE
     scripts:
-      # 1️⃣ Установим зависимости, включая devDependencies
+      # 1️⃣ Установим зависимости
       - name: Install dependencies
         script: npm install --include=dev --legacy-peer-deps
 
@@ -20,11 +17,11 @@ workflows:
       - name: Build React Web
         script: npm run build
 
-      # 3️⃣ Синхронизация Capacitor плагинов
+      # 3️⃣ Синхронизация Capacitor Android
       - name: Sync Capacitor Android
         script: npx cap sync android
 
-      # 4️⃣ Копируем веб-сборку в Android проект
+      # 4️⃣ Копируем сборку в Android проект
       - name: Copy React Web to Android
         script: npx cap copy android
 
