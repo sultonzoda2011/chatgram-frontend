@@ -8,7 +8,7 @@ workflows:
         NODE_ENV: production
     scripts:
       - name: Install dependencies
-        script: npm install
+        script: npm install --legacy-peer-deps
       - name: Build React Web
         script: npm run build
       - name: Copy React Web to Android
