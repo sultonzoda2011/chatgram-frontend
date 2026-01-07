@@ -4,7 +4,7 @@ workflows:
     max_build_duration: 60
     environment:
       node: stable
-      java: openjdk17
+      java: adoptopenjdk-17
       vars:
         NODE_ENV: production
         VITE_API_URL: $VITE_API_URL
