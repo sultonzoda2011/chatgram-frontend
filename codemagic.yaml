@@ -15,6 +15,8 @@ workflows:
         script: npm run build
       - name: Copy React Web to Android
         script: npx cap copy android
+      - name: Make gradlew executable
+        script: chmod +x android/gradlew
       - name: Build APK
         script: |
           cd android
