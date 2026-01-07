@@ -4,36 +4,25 @@ workflows:
     max_build_duration: 60
     environment:
       node: stable
+      java: openjdk17
       vars:
         NODE_ENV: production
         VITE_API_URL: $VITE_API_URL
         VITE_API_URL_IMAGE: $VITE_API_URL_IMAGE
     scripts:
-      # 1️⃣ Устанавливаем все зависимости
       - name: Install dependencies
         script: npm install --include=dev --legacy-peer-deps
-
-      # 2️⃣ Собираем React Web (нужно перед sync)
       - name: Build React Web
         script: npm run build
-
-      # 3️⃣ Синхронизация Capacitor Android (папка dist уже есть)
       - name: Sync Capacitor Android
         script: npx cap sync android
-
-      # 4️⃣ Копируем сборку в Android проект
       - name: Copy React Web to Android
         script: npx cap copy android
-
-      # 5️⃣ Даем права на исполнение gradlew
       - name: Make gradlew executable
         script: chmod +x android/gradlew
-
-      # 6️⃣ Сборка APK через Gradle
       - name: Build APK
         script: |
           cd android
           ./gradlew assembleRelease
-
     artifacts:
       - android/app/build/outputs/**/*.apk
