@@ -1,7 +1,7 @@
 workflows:
-  react-web:
-    name: React Web Build
-    max_build_duration: 30
+  build-android:
+    name: Build React Web to Android APK
+    max_build_duration: 60
     environment:
       node: stable
       vars:
@@ -9,7 +9,13 @@ workflows:
     scripts:
       - name: Install dependencies
         script: npm install
-      - name: Build project
+      - name: Build React Web
         script: npm run build
+      - name: Copy React Web to Android
+        script: npx cap copy android
+      - name: Build APK
+        script: |
+          cd android
+          ./gradlew assembleRelease
     artifacts:
-      - build/**
+      - android/app/build/outputs/**/*.apk
