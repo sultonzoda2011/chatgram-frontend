@@ -117,7 +117,7 @@ const Profile = () => {
           </div>
 
           <div className="lg:col-span-2 space-y-6">
-            <div className="bg-card/50 backdrop-blur-xl border border-border/50 rounded-[2.5rem] p-6 md:p-10 shadow-xl shadow-primary/5 space-y-8">
+            <div className="bg-card/50 backdrop-blur-xl border border-border/50 rounded-[2.5rem] p-6 md:p-5 shadow-xl shadow-primary/5 space-y-8">
               <div>
                 <h2 className="text-xl font-black mb-2 flex items-center gap-2">
                   <Settings size={24} className="text-primary" />
@@ -127,7 +127,7 @@ const Profile = () => {
               </div>
 
               <div className="space-y-4">
-                <div className="flex items-center justify-between py-3 px-1 rounded-2xl bg-secondary/30 border border-border/50">
+                <div className="flex items-center justify-between p-3 px-3 rounded-2xl bg-secondary/30 border border-border/50">
                   <div className="flex items-center gap-4">
                     <div className="p-2.5 rounded-xl bg-primary/10 text-primary">
                       <Globe size={20} />

@@ -1,0 +1,15 @@
+workflows:
+  react-web:
+    name: React Web Build
+    max_build_duration: 30
+    environment:
+      node: stable
+      vars:
+        NODE_ENV: production
+    scripts:
+      - name: Install dependencies
+        script: npm install
+      - name: Build project
+        script: npm run build
+    artifacts:
+      - build/**
