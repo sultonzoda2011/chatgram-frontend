@@ -9,17 +9,31 @@ workflows:
         VITE_API_URL: $VITE_API_URL
         VITE_API_URL_IMAGE: $VITE_API_URL_IMAGE
     scripts:
+      # 1️⃣ Устанавливаем все зависимости, включая devDependencies
       - name: Install dependencies
         script: npm install --include=dev --legacy-peer-deps
+
+      # 2️⃣ Синхронизация Capacitor плагинов для Android
+      - name: Sync Capacitor Android
+        script: npx cap sync android
+
+      # 3️⃣ Собираем React Web
       - name: Build React Web
         script: npm run build
+
+      # 4️⃣ Копируем сборку в Android проект
       - name: Copy React Web to Android
         script: npx cap copy android
+
+      # 5️⃣ Даем права на исполнение gradlew
       - name: Make gradlew executable
         script: chmod +x android/gradlew
+
+      # 6️⃣ Сборка APK через Gradle
       - name: Build APK
         script: |
           cd android
           ./gradlew assembleRelease
+
     artifacts:
       - android/app/build/outputs/**/*.apk
