@@ -10,7 +10,7 @@ workflows:
         VITE_API_URL_IMAGE: $VITE_API_URL_IMAGE
     scripts:
       - name: Install dependencies
-        script: npm install --legacy-peer-deps
+        script: npm install --include=dev --legacy-peer-deps
       - name: Build React Web
         script: npm run build
       - name: Copy React Web to Android
