@@ -8,5 +8,7 @@ export interface IUser {
   id: number
   username: string
   fullname: string
-  avatar: string
+  avatarUrl?: string | null
+  isOnline?: boolean
+  lastSeenAt?: string | null
 }

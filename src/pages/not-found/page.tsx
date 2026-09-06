@@ -33,7 +33,7 @@ const NotFound = () => {
 
       <div className="flex flex-col sm:flex-row gap-3 pt-4">
         <Button asChild variant="outline" className="rounded-xl px-6">
-          <Link to={-1 as any} className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <ArrowLeft size={18} />
             {t('notFound.goBack')}
           </Link>

@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { changePassword } from '../../../../api/authApi'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ChangePasswordSchema } from '../../../../schemas/auth'
+import { toast } from 'sonner'
 
 import { useTranslation } from 'react-i18next'
 
@@ -32,17 +33,21 @@ const ChangePasswordModal = ({
 
   const queryClient = useQueryClient()
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: changePassword,
     onSuccess: () => {
+      toast.success(t('profile.passwordSuccess'))
       queryClient.invalidateQueries({ queryKey: ['get-profile'] })
+      setChangePasswordModalOpen(false)
+      reset()
+    },
+    onError: (error: { response?: { data?: { message?: string } } }) => {
+      toast.error(error.response?.data?.message || t('login.something_wrong'))
     },
   })
 
   const onSubmit = (data: IChangePassword) => {
     mutate(data)
-    setChangePasswordModalOpen(false)
-    reset()
   }
 
   if (!changePasswordModalOpen) return null
@@ -81,7 +86,9 @@ const ChangePasswordModal = ({
           />
 
           <div className="modal-actions">
-            <Button type="submit">{t('profile.save')}</Button>
+            <Button type="submit" disabled={isPending}>
+              {t('profile.save')}
+            </Button>
             <Button variant="ghost" type="button" onClick={() => setChangePasswordModalOpen(false)}>
               {t('profile.cancel')}
             </Button>

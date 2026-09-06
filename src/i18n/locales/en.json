@@ -49,7 +49,22 @@
     "send": "Send",
     "online": "Online",
     "lastSeen": "Last seen",
-    "noMessages": "No messages yet. Start chatting!"
+    "noMessages": "No messages yet. Start chatting!",
+    "deletedMessage": "Message deleted"
+  },
+  "group": {
+    "create": "Create group",
+    "createTitle": "Create a group",
+    "namePlaceholder": "Group name",
+    "searchUsers": "Find members...",
+    "selectMembers": "Choose group members",
+    "startSearch": "Type a name or username to search",
+    "cancel": "Cancel",
+    "error": "Could not create the group",
+    "members": "Group members",
+    "addMember": "Add member",
+    "removeMember": "Remove member",
+    "membersError": "Could not update group members"
   },
   "profile": {
     "title": "Profile settings",

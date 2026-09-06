@@ -1,4 +1,5 @@
-export function formatChatDate(iso: string) {
+export function formatChatDate(iso?: string) {
+    if (!iso) return ''
     const date = new Date(iso)
     const now = new Date()
 
