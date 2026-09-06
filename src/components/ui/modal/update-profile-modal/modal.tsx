@@ -7,7 +7,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getProfile, updateProfile } from '../../../../api/authApi'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UpdateProfileSchema } from '../../../../schemas/auth'
-import { toast } from 'sonner'
 
 import { useTranslation } from 'react-i18next'
 
@@ -39,16 +38,10 @@ const UpdateProfileModal = ({
 
   const queryClient = useQueryClient()
 
-  const { mutate, isPending } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: updateProfile,
     onSuccess: () => {
-      toast.success(t('profile.saveSuccess'))
       queryClient.invalidateQueries({ queryKey: ['get-profile'] })
-      setUpdateProfileModalOpen(false)
-      reset()
-    },
-    onError: (error: { response?: { data?: { message?: string } } }) => {
-      toast.error(error.response?.data?.message || t('login.something_wrong'))
     },
   })
 
@@ -62,6 +55,8 @@ const UpdateProfileModal = ({
 
   const onSubmit = (data: IUpdateProfile) => {
     mutate(data)
+    setUpdateProfileModalOpen(false)
+    reset()
   }
 
   if (!updateProfileModalOpen) return null
@@ -100,9 +95,7 @@ const UpdateProfileModal = ({
           />
 
           <div className="modal-actions">
-            <Button type="submit" disabled={isPending}>
-              {t('profile.save')}
-            </Button>
+            <Button type="submit">{t('profile.save')}</Button>
             <Button variant="ghost" type="button" onClick={() => setUpdateProfileModalOpen(false)}>
               {t('profile.cancel')}
             </Button>

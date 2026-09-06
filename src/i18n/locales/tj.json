@@ -50,22 +50,12 @@
     "online": "Онлайн",
     "lastSeen": "Охирин онлайн",
     "noMessages": "Ҳанӯз паём нест. Сӯҳбатро оғоз кунед!",
-    "deletedMessage": "Паём нест карда шуд"
-  },
-  "group": {
-    "create": "Эҷоди гурӯҳ",
-    "createTitle": "Эҷоди гурӯҳ",
-    "namePlaceholder": "Номи гурӯҳ",
-    "searchUsers": "Ҷустуҷӯи аъзоён...",
-    "selectMembers": "Аъзоёни гурӯҳро интихоб кунед",
-    "startSearch": "Ном ё username-ро ворид кунед",
-    "cancel": "Бекор кардан",
-    "error": "Гурӯҳ сохта нашуд",
-    "members": "Аъзоёни гурӯҳ",
-    "addMember": "Илова кардани аъзо",
-    "removeMember": "Нест кардани аъзо",
-    "membersError": "Таркиби гурӯҳ тағйир дода нашуд",
-    "removeAvatar": "Нест кардани аватар"
+    "typing": "менависад...",
+    "offline": "Офлайн",
+    "members": "аъзо",
+    "messageDeleted": "Паём нест карда шуд",
+    "edited": "тағйир дода шуд",
+    "somethingWrong": "Хатогӣ рух дод"
   },
   "profile": {
     "title": "Танзимоти профил",
@@ -91,9 +81,7 @@
     "language": "Забон",
     "languageSubtitle": "Забони интерфейсро интихоб кунед.",
     "appearance": "Намуди барнома",
-    "appearanceSubtitle": "Мавзуи рӯшно ё торикро интихоб кунед.",
-    "changeAvatar": "Тағйир додани аватар",
-    "removeAvatar": "Нест кардани аватар"
+    "appearanceSubtitle": "Мавзуи рӯшно ё торикро интихоб кунед."
   },
   "home": {
     "welcome": "Хуш омадед ба ChatGram",
@@ -128,5 +116,14 @@
     "description": "Саҳифае, ки шумо меҷӯед, вуҷуд надорад ё кӯчонида шудааст. Биёед шуморо баргардонем!",
     "goBack": "Ба қафо",
     "backHome": "Ба асосӣ"
+  },
+  "group": {
+    "newGroup": "Гурӯҳи нав",
+    "name": "Номи гурӯҳ",
+    "namePlaceholder": "масалан, Дастаи лоиҳа",
+    "members": "Аъзоён",
+    "create": "Эҷод кардан",
+    "created": "Гурӯҳ эҷод шуд",
+    "createError": "Эҷоди гурӯҳ ноком шуд"
   }
 }

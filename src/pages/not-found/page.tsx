@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Home, ArrowLeft, Ghost } from 'lucide-react'
 import { Button } from '../../components/ui/button'
 import { useTranslation } from 'react-i18next'
 
 const NotFound = () => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-6">
@@ -32,11 +33,11 @@ const NotFound = () => {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3 pt-4">
-        <Button asChild variant="outline" className="rounded-xl px-6">
-          <Link to="/" className="flex items-center gap-2">
+        <Button variant="outline" className="rounded-xl px-6" onClick={() => navigate(-1)}>
+          <span className="flex items-center gap-2">
             <ArrowLeft size={18} />
             {t('notFound.goBack')}
-          </Link>
+          </span>
         </Button>
         <Button asChild className="rounded-xl px-6 shadow-lg shadow-primary/20">
           <Link to="/" className="flex items-center gap-2">

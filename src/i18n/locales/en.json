@@ -50,22 +50,12 @@
     "online": "Online",
     "lastSeen": "Last seen",
     "noMessages": "No messages yet. Start chatting!",
-    "deletedMessage": "Message deleted"
-  },
-  "group": {
-    "create": "Create group",
-    "createTitle": "Create a group",
-    "namePlaceholder": "Group name",
-    "searchUsers": "Find members...",
-    "selectMembers": "Choose group members",
-    "startSearch": "Type a name or username to search",
-    "cancel": "Cancel",
-    "error": "Could not create the group",
-    "members": "Group members",
-    "addMember": "Add member",
-    "removeMember": "Remove member",
-    "membersError": "Could not update group members",
-    "removeAvatar": "Remove avatar"
+    "typing": "typing...",
+    "offline": "Offline",
+    "members": "members",
+    "messageDeleted": "Message deleted",
+    "edited": "edited",
+    "somethingWrong": "Something went wrong"
   },
   "profile": {
     "title": "Profile settings",
@@ -91,9 +81,7 @@
     "language": "Language",
     "languageSubtitle": "Choose app language.",
     "appearance": "Appearance",
-    "appearanceSubtitle": "Choose light or dark theme.",
-    "changeAvatar": "Change avatar",
-    "removeAvatar": "Remove avatar"
+    "appearanceSubtitle": "Choose light or dark theme."
   },
   "home": {
     "welcome": "Welcome to ChatGram",
@@ -128,5 +116,14 @@
     "description": "The page you're looking for doesn't exist or has been moved. Let's get you back on track!",
     "goBack": "Go Back",
     "backHome": "Back to Home"
+  },
+  "group": {
+    "newGroup": "New group",
+    "name": "Group name",
+    "namePlaceholder": "e.g. Project Team",
+    "members": "Members",
+    "create": "Create",
+    "created": "Group created",
+    "createError": "Failed to create group"
   }
 }

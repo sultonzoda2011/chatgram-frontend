@@ -113,3 +113,42 @@ src/
 
 ## 📄 License
 This project is private and proprietary.
+
+---
+
+## 📱 Android (Capacitor)
+
+Проект обёрнут в Capacitor — папка `android/` содержит нативный Android-проект.
+
+### Локальная сборка
+
+```bash
+npm install
+npm run cap:sync        # vite build + copy web assets + cap sync android
+npm run cap:open        # открыть проект в Android Studio
+# либо собрать APK из консоли:
+npm run android:build   # соберёт web + assembleDebug
+```
+
+Debug-APK появится в `android/app/build/outputs/apk/debug/app-debug.apk`.
+
+### Сборка APK через GitHub Actions
+
+Workflow `.github/workflows/build-apk.yml` собирает APK автоматически:
+
+- **push в `main` / PR / вручную (`workflow_dispatch`)** → собирает **debug APK**, кладёт как артефакт `chatgram-debug-apk`
+- **push тега `v*` (например `v1.0.0`)** → собирает **release APK** и прикрепляет его к GitHub Release
+
+Перед запуском в Settings → Secrets and variables → Actions добавь:
+
+**Variables** (адрес твоего бэкенда, зашивается в сборку):
+- `VITE_API_URL` — например `https://api.example.com/api`
+- `VITE_WS_URL` — например `https://api.example.com`
+
+**Secrets** (нужны только для подписанного release-APK по тегу; если не заданы — release соберётся с debug-подписью):
+- `ANDROID_KEYSTORE_BASE64` — содержимое `.keystore`/`.jks`, закодированное в base64 (`base64 -w0 release.keystore`)
+- `ANDROID_KEYSTORE_PASSWORD`
+- `ANDROID_KEY_ALIAS`
+- `ANDROID_KEY_PASSWORD`
+
+Готовый APK скачивается на вкладке **Actions → выбранный запуск → Artifacts**, либо со страницы **Releases** для тегов.

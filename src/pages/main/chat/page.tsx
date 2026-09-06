@@ -1,264 +1,238 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useParams, useNavigate } from 'react-router-dom'
+import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import {
-	ArrowLeft,
-	Edit,
-	Loader2,
-	MessageCircle,
-	MoreVertical,
-	Send,
-	Trash2,
-	User
-} from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate, useParams } from 'react-router-dom'
-import {
-	deleteMessage,
-	getChatList,
-	getMessages,
-	sendMessage,
-	updateMessage
-} from '../../../api/chatApi'
-import { GroupMembersModal } from '../../../components/chat/group-members-modal'
+import { Send, MoreVertical, ArrowLeft, Loader2, User, MessageCircle, Trash2, Edit, Users } from 'lucide-react'
+import { cn } from '../../../lib/utils/cn'
 import { Button } from '../../../components/ui/button'
 import { Input } from '../../../components/ui/input/input'
-import { getChatSocket } from '../../../lib/socket'
-import { cn } from '../../../lib/utils/cn'
-import { getJwtFromCookie } from '../../../lib/utils/jwt'
-import type { IChatsResponse, IMessageResponse } from '../../../types/chat'
+import { useConversations, useDeleteMessage, useEditMessage, useMessages, useSendMessage } from '../../../hooks/useChat'
+import { useConversationRoom } from '../../../hooks/useConversationRoom'
+import { useCurrentUserId } from '../../../hooks/useCurrentUserId'
+import { useSocketContext } from '../../../lib/socket/SocketProvider'
 
 const Chat = () => {
-	const { t } = useTranslation()
-	const navigate = useNavigate()
-	const queryClient = useQueryClient()
-	const { id } = useParams()
-	const conversationId = Number(id)
-	const [message, setMessage] = useState('')
-	const [editId, setEditId] = useState<number | null>(null)
-	const [isMembersOpen, setIsMembersOpen] = useState(false)
-	const scrollRef = useRef<HTMLDivElement>(null)
-	const currentUserId = getJwtFromCookie()?.sub
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const { id } = useParams()
+  const conversationId = Number(id)
+  const currentUserId = useCurrentUserId()
 
-	const { data: chatsData } = useQuery<IChatsResponse>({
-		queryKey: ['chatList'],
-		queryFn: getChatList
-	})
-	const { data: messagesData, isLoading: isLoadingMessages } =
-		useQuery<IMessageResponse>({
-			queryKey: ['chat', id],
-			queryFn: () => getMessages(conversationId),
-			enabled: Number.isInteger(conversationId) && conversationId > 0
-		})
-	const conversation = chatsData?.data.find(chat => chat.id === conversationId)
+  const [message, setMessage] = useState('')
+  const [editId, setEditId] = useState<number | null>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-	useEffect(() => {
-		getChatSocket()?.emit('conversation:join', { conversationId })
-	}, [conversationId])
-	useEffect(() => {
-		if (scrollRef.current)
-			scrollRef.current.scrollTop = scrollRef.current.scrollHeight
-	}, [messagesData])
+  const { data: messagesData, isLoading: isLoadingMessages } = useMessages(conversationId)
+  const { data: conversationsData } = useConversations()
+  const { onlineUserIds } = useSocketContext()
+  const { typingUserIds, emitTyping } = useConversationRoom(conversationId)
 
-	const refresh = () => {
-		queryClient.invalidateQueries({ queryKey: ['chat', id] })
-		queryClient.invalidateQueries({ queryKey: ['chatList'] })
-	}
-	const { mutate: deleteMutate } = useMutation({
-		mutationFn: deleteMessage,
-		onSuccess: refresh
-	})
-	const { mutate: updateMutate } = useMutation({
-		mutationFn: updateMessage,
-		onSuccess: () => {
-			setMessage('')
-			setEditId(null)
-			refresh()
-		}
-	})
-	const { mutate: send, isPending: isSending } = useMutation({
-		mutationFn: sendMessage,
-		onSuccess: () => {
-			setMessage('')
-			refresh()
-		}
-	})
+  const { mutate: send, isPending: isSending } = useSendMessage(conversationId)
+  const { mutate: editMutate } = useEditMessage(conversationId)
+  const { mutate: deleteMutate } = useDeleteMessage(conversationId)
 
-	const handleSend = (event?: React.FormEvent) => {
-		event?.preventDefault()
-		if (!message.trim() || isSending || !conversationId) return
-		if (editId !== null)
-			updateMutate({ messageId: editId, content: message.trim() })
-		else send({ conversationId, content: message.trim() })
-	}
+  const conversation = conversationsData?.data.find((c) => c.id === conversationId)
+  const otherMember = conversation?.members.find((m) => m.user.id !== currentUserId)
+  const isOtherOnline = !!otherMember && onlineUserIds.has(otherMember.user.id)
+  const isTyping = otherMember ? typingUserIds.has(otherMember.user.id) : typingUserIds.size > 0
 
-	const title = conversation?.name || `Conversation #${id}`
-	return (
-		<div className="relative flex h-full flex-col overflow-hidden bg-background">
-			<header className="z-10 flex items-center justify-between border-b border-border/50 bg-card/50 px-4 py-3 backdrop-blur-xl">
-				<div className="flex min-w-0 items-center gap-3">
-					<Button
-						variant="ghost"
-						size="icon"
-						onClick={() => navigate('/')}
-						className="rounded-full lg:hidden"
-					>
-						<ArrowLeft size={20} />
-					</Button>
-					<div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border/50 bg-linear-to-br from-primary/20 to-accent/20">
-						{conversation?.avatarUrl ? (
-							<img
-								src={conversation.avatarUrl}
-								alt=""
-								className="h-full w-full object-cover"
-							/>
-						) : (
-							<span className="text-sm font-bold">
-								{title.charAt(0).toUpperCase() || <User size={18} />}
-							</span>
-						)}
-					</div>
-					<div className="min-w-0">
-						<h2 className="mb-1 truncate text-sm font-bold leading-none">
-							{title}
-						</h2>
-						<p className="text-[10px] font-medium text-green-500">
-							{conversation?.type === 'GROUP' &&
-								`${conversation.members.length} members`}
-						</p>
-					</div>
-				</div>
-				<Button
-					variant="ghost"
-					size="icon"
-					className="rounded-full text-muted-foreground"
-					disabled={conversation?.type !== 'GROUP'}
-					onClick={() => setIsMembersOpen(true)}
-					title={t('group.members')}
-				>
-					<MoreVertical size={18} />
-				</Button>
-			</header>
-			<div
-				ref={scrollRef}
-				className="flex-1 space-y-4 overflow-y-auto bg-linear-to-b from-transparent to-primary/5 p-4 custom-scrollbar"
-			>
-				{isLoadingMessages ? (
-					<div className="flex h-full items-center justify-center">
-						<Loader2 className="h-8 w-8 animate-spin text-primary/50" />
-					</div>
-				) : messagesData?.data.length ? (
-					messagesData.data.map((msg, index) => {
-						const isMe = msg.senderId === currentUserId
-						const deleted = Boolean(msg.deletedAt)
-						return (
-							<motion.div
-								key={msg.id}
-								initial={{ opacity: 0, y: 10, scale: 0.95 }}
-								animate={{ opacity: 1, y: 0, scale: 1 }}
-								transition={{
-									duration: 0.2,
-									delay: Math.min(index * 0.05, 0.5)
-								}}
-								className={cn(
-									'relative group flex max-w-[85%] items-end gap-2 sm:max-w-[70%]',
-									isMe ? 'ml-auto flex-row-reverse' : 'mr-auto'
-								)}
-							>
-								{isMe && !deleted && (
-									<div className="absolute -top-3 right-0 hidden items-center gap-1 rounded-full border border-border/50 bg-background/70 px-1.5 py-1 shadow-lg backdrop-blur-md group-hover:flex">
-										<button
-											onClick={() => {
-												setMessage(msg.content)
-												setEditId(msg.id)
-											}}
-											className="flex h-7 w-7 items-center justify-center rounded-full text-muted-foreground hover:bg-primary hover:text-white"
-										>
-											<Edit size={14} />
-										</button>
-										<button
-											onClick={() => deleteMutate(msg.id)}
-											className="flex h-7 w-7 items-center justify-center rounded-full text-muted-foreground hover:bg-red-500 hover:text-white"
-										>
-											<Trash2 size={14} />
-										</button>
-									</div>
-								)}
-								<div
-									className={cn(
-										'rounded-2xl px-4 py-2 text-sm shadow-sm',
-										isMe
-											? 'rounded-br-none bg-primary text-primary-foreground'
-											: 'rounded-bl-none border border-border/50 bg-card'
-									)}
-								>
-									<>
-										{conversation?.type === 'GROUP' && !isMe && (
-											<p className="mb-1 text-[10px] font-semibold opacity-70">
-												{msg.sender.fullname}
-											</p>
-										)}
-										<p
-											className={cn(
-												'wrap-break-word leading-relaxed',
-												deleted && 'italic opacity-60'
-											)}
-										>
-											{deleted ? t('chat.deletedMessage') : msg.content}
-										</p>
-										<p className="mt-1 text-right text-[8px] font-medium opacity-60">
-											{new Date(msg.createdAt).toLocaleTimeString([], {
-												hour: '2-digit',
-												minute: '2-digit'
-											})}
-										</p>
-									</>
-								</div>
-							</motion.div>
-						)
-					})
-				) : (
-					<div className="flex h-full flex-col items-center justify-center space-y-3 text-muted-foreground opacity-50">
-						<MessageCircle size={32} />
-						<p className="text-sm font-medium">{t('chat.noMessages')}</p>
-					</div>
-				)}
-			</div>
-			<div className="border-t border-border/50 bg-background/80 p-4 backdrop-blur-md">
-				<form
-					onSubmit={handleSend}
-					className="mx-auto flex max-w-4xl items-center gap-3"
-				>
-					<Input
-						type="text"
-						value={message}
-						onChange={event => setMessage(event.target.value)}
-						placeholder={t('chat.typeMessage')}
-						className="h-12 rounded-2xl bg-secondary/40"
-					/>
-					<Button
-						type="submit"
-						disabled={!message.trim() || isSending}
-						size="icon"
-						className="h-12 w-12 rounded-2xl"
-					>
-						{isSending ? (
-							<Loader2 className="h-5 w-5 animate-spin" />
-						) : (
-							<Send size={18} />
-						)}
-					</Button>
-				</form>
-			</div>
-			{conversation?.type === 'GROUP' && (
-				<GroupMembersModal
-					conversation={conversation}
-					open={isMembersOpen}
-					onClose={() => setIsMembersOpen(false)}
-				/>
-			)}
-		</div>
-	)
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+    }
+  }, [messagesData])
+
+  const handleMessageChange = (value: string) => {
+    setMessage(value)
+    emitTyping(value.length > 0)
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current)
+    typingTimeoutRef.current = setTimeout(() => emitTyping(false), 2000)
+  }
+
+  const handleSend = (e?: React.FormEvent) => {
+    e?.preventDefault()
+    if (!message.trim() || isSending) return
+    emitTyping(false)
+
+    if (editId) {
+      editMutate({ messageId: editId, content: message })
+      setEditId(null)
+    } else {
+      send({ conversationId, content: message })
+    }
+    setMessage('')
+  }
+
+  return (
+    <div className="flex flex-col h-full bg-background relative overflow-hidden">
+      <header className="flex items-center justify-between px-4 py-3 border-b border-border/50 bg-card/50 backdrop-blur-xl z-10">
+        <div className="flex items-center gap-3">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigate('/')}
+            className="lg:hidden rounded-full"
+          >
+            <ArrowLeft size={20} />
+          </Button>
+          <div className="relative">
+            <div className="w-10 h-10 rounded-full bg-linear-to-br from-primary/20 to-accent/20 flex items-center justify-center border border-border/50">
+              {conversation?.type === 'GROUP' ? (
+                <Users size={16} />
+              ) : (
+                <span className="text-sm font-bold">
+                  {conversation?.name?.charAt(0).toUpperCase() || <User size={18} />}
+                </span>
+              )}
+            </div>
+            {isOtherOnline && (
+              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-background" />
+            )}
+          </div>
+          <div className="min-w-0">
+            <h2 className="text-sm font-bold leading-none mb-1 truncate max-w-37.5 sm:max-w-75">
+              {conversation?.name || `#${id}`}
+            </h2>
+            <p className="text-[10px] text-muted-foreground font-medium">
+              {isTyping ? (
+                <span className="text-primary">{t('chat.typing')}</span>
+              ) : conversation?.type === 'GROUP' ? (
+                `${conversation.members.length} ${t('chat.members')}`
+              ) : isOtherOnline ? (
+                <span className="text-green-500">{t('chat.online')}</span>
+              ) : (
+                t('chat.offline')
+              )}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-1">
+          <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground">
+            <MoreVertical size={18} />
+          </Button>
+        </div>
+      </header>
+
+      <div
+        ref={scrollRef}
+        className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-linear-to-b from-transparent to-primary/5"
+      >
+        {isLoadingMessages ? (
+          <div className="flex items-center justify-center h-full">
+            <Loader2 className="w-8 h-8 animate-spin text-primary/50" />
+          </div>
+        ) : messagesData?.data.length ? (
+          messagesData.data.map((msg, idx) => {
+            const isMe = msg.senderId === currentUserId
+            const isDeleted = !!msg.deletedAt
+            return (
+              <motion.div
+                key={msg.id}
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.2, delay: Math.min(idx * 0.05, 0.5) }}
+                className={cn(
+                  'relative group flex items-end gap-2 max-w-[85%] sm:max-w-[70%]',
+                  isMe ? 'ml-auto flex-row-reverse' : 'mr-auto',
+                )}
+              >
+                {isMe && !isDeleted && (
+                  <div className="absolute -top-3 right-0 hidden group-hover:flex items-center gap-1 px-1.5 py-1 rounded-full bg-background/70 backdrop-blur-md border border-border/50 shadow-lg">
+                    <button
+                      onClick={() => {
+                        setMessage(msg.content)
+                        setEditId(msg.id)
+                      }}
+                      className="flex items-center justify-center w-7 h-7 rounded-full text-muted-foreground hover:text-white hover:bg-primary transition-all active:scale-95"
+                    >
+                      <Edit size={14} />
+                    </button>
+                    <button
+                      onClick={() => deleteMutate(msg.id)}
+                      className="flex items-center justify-center w-7 h-7 rounded-full text-muted-foreground hover:text-white hover:bg-red-500 transition-all active:scale-95"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
+                )}
+
+                <div
+                  className={cn(
+                    'px-4 py-2 rounded-2xl text-sm shadow-sm',
+                    isMe
+                      ? 'bg-primary text-primary-foreground rounded-br-none'
+                      : 'bg-card border border-border/50 rounded-bl-none',
+                  )}
+                >
+                  {conversation?.type === 'GROUP' && !isMe && (
+                    <p className="text-[10px] font-bold text-primary mb-0.5">{msg.sender.fullname}</p>
+                  )}
+                  <p className={cn('wrap-break-word leading-relaxed', isDeleted && 'italic opacity-60')}>
+                    {isDeleted ? t('chat.messageDeleted') : msg.content}
+                  </p>
+                  <p
+                    className={cn(
+                      'text-[8px] mt-1 text-right opacity-60 font-medium',
+                      isMe ? 'text-primary-foreground' : 'text-muted-foreground',
+                    )}
+                  >
+                    {msg.editedAt && !isDeleted && `${t('chat.edited')} · `}
+                    {new Date(msg.createdAt).toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                  </p>
+                </div>
+              </motion.div>
+            )
+          })
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full text-muted-foreground space-y-3 opacity-50">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="p-5 rounded-full bg-secondary/50 border border-border/50 shadow-inner"
+            >
+              <MessageCircle size={32} />
+            </motion.div>
+            <p className="text-sm font-medium">{t('chat.noMessages')}</p>
+          </div>
+        )}
+      </div>
+
+      <div className="p-4 bg-background/80 backdrop-blur-md border-t border-border/50">
+        <form onSubmit={handleSend} className="relative flex items-center gap-3 max-w-4xl mx-auto">
+          <div className="relative flex-1 group">
+            <Input
+              type="text"
+              value={message}
+              onChange={(e) => handleMessageChange(e.target.value)}
+              placeholder={t('chat.typeMessage')}
+              className="h-12 bg-secondary/40 border-border/40 rounded-2xl pr-12 focus:bg-background transition-all"
+            />
+          </div>
+          <Button
+            type="submit"
+            disabled={!message.trim() || isSending}
+            size="icon"
+            className={cn(
+              'w-12 h-12 rounded-2xl shadow-lg transition-all active:scale-95',
+              !message.trim() || isSending
+                ? 'grayscale opacity-50 shadow-none'
+                : 'shadow-primary/20',
+            )}
+          >
+            {isSending ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              <Send size={18} className={cn(message.trim() ? 'translate-x-0.5' : '')} />
+            )}
+          </Button>
+        </form>
+      </div>
+    </div>
+  )
 }
 
 export default Chat

@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { getProfile, removeProfileAvatar, uploadProfileAvatar } from '../../../api/authApi'
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { getProfile } from '../../../api/authApi'
 import type { IProfileResponse } from '../../../types/auth'
 import { useTranslation } from 'react-i18next'
 import {
@@ -13,9 +13,7 @@ import {
   Settings,
   Globe,
   Palette,
-  Mail,
-  ImagePlus,
-  Trash2
+  Mail
 } from 'lucide-react'
 import { Button } from '../../../components/ui/button'
 import { removeToken } from '../../../lib/utils/cookie'
@@ -30,21 +28,10 @@ const Profile = () => {
   const navigate = useNavigate()
   const [updateProfileModalOpen, setUpdateProfileModalOpen] = useState(false)
   const [changePasswordModalOpen, setChangePasswordModalOpen] = useState(false)
-  const avatarInputRef = useRef<HTMLInputElement>(null)
-  const queryClient = useQueryClient()
 
   const { data: profile, isLoading: isLoadingProfile } = useQuery<IProfileResponse>({
     queryKey: ['get-profile'],
     queryFn: getProfile,
-  })
-
-  const avatarMutation = useMutation({
-    mutationFn: uploadProfileAvatar,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['get-profile'] }),
-  })
-  const removeAvatarMutation = useMutation({
-    mutationFn: removeProfileAvatar,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['get-profile'] }),
   })
 
   const handleLogout = () => {
@@ -92,12 +79,11 @@ const Profile = () => {
             <div className="p-8 rounded-[2.5rem] bg-card/50 backdrop-blur-xl border border-border/50 text-center space-y-4 shadow-xl shadow-primary/5">
               <div className="relative inline-block mx-auto group">
                 <div className="w-28 h-28 rounded-full bg-linear-to-br from-primary via-accent to-primary flex items-center justify-center border-4 border-background shadow-2xl overflow-hidden relative">
-                  {profile?.data.avatarUrl ? <img src={profile.data.avatarUrl} alt="" className="h-full w-full object-cover" /> : <span className="text-4xl font-black text-white drop-shadow-md">{profile?.data.fullname.charAt(0).toUpperCase()}</span>}
+                  <span className="text-4xl font-black text-white drop-shadow-md">
+                    {profile?.data.fullname.charAt(0).toUpperCase()}
+                  </span>
                 </div>
-                <input ref={avatarInputRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif" className="hidden" onChange={(event) => { const file = event.target.files?.[0]; if (file) avatarMutation.mutate(file); event.target.value = '' }} />
-                <Button type="button" size="icon" variant="secondary" className="absolute bottom-0 right-0 rounded-full shadow-lg" disabled={avatarMutation.isPending} onClick={() => avatarInputRef.current?.click()} title={t('profile.changeAvatar')}><ImagePlus size={16} /></Button>
               </div>
-              {profile?.data.avatarUrl && <Button type="button" variant="ghost" size="sm" className="text-destructive" disabled={removeAvatarMutation.isPending} onClick={() => removeAvatarMutation.mutate()}><Trash2 size={14} />{t('profile.removeAvatar')}</Button>}
               <div>
                 <h3 className="font-black text-xl leading-tight">{profile?.data.fullname}</h3>
                 <p className="text-sm text-muted-foreground font-medium mt-1">@{profile?.data.username}</p>

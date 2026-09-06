@@ -15,21 +15,15 @@ export interface IProfile {
   username: string
   fullname: string
   email: string
-  avatarUrl?: string | null
-  isOnline?: boolean
-  lastSeenAt?: string | null
+  avatarUrl: string | null
+  isOnline: boolean
+  lastSeenAt: string
 }
 
 export interface IProfileResponse {
   status: string
   message: string
   data: IProfile
-}
-
-export interface IAuthResponse {
-  status: string
-  message: string
-  data: { token: string }
 }
 
 export interface IUpdateProfile {
