@@ -39,27 +39,10 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
-      - name: Install Capacitor dependencies
-        run: npm install --no-save @capacitor/core@^7 @capacitor/android@^7 @capacitor/cli@^7
-
       - name: Build web application
         env:
           VITE_API_URL: ${{ vars.VITE_API_URL }}
         run: npm run build
-
-      - name: Initialize Capacitor configuration
-        shell: bash
-        run: |
-          if [ ! -f capacitor.config.ts ] && [ ! -f capacitor.config.json ]; then
-            npx cap init "$CAPACITOR_APP_NAME" "$CAPACITOR_APP_ID" --web-dir dist
-          fi
-
-      - name: Create Android project if missing
-        shell: bash
-        run: |
-          if [ ! -d android ]; then
-            npx cap add android
-          fi
 
       - name: Sync web assets with Android
         run: npx cap sync android
@@ -75,3 +58,14 @@ jobs:
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
+
+      - name: Upload Android build logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chatgram-android-build-logs-${{ github.sha }}
+          path: |
+            android/app/build/outputs/logs/**
+            android/build/reports/**
+          if-no-files-found: ignore
+          retention-days: 7
