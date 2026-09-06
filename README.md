@@ -85,7 +85,7 @@ src/
 3. Set up environment variables:
    Create a `.env` file in the root directory and add your backend API URL:
    ```env
-   VITE_API_URL=your_api_url_here
+   VITE_API_BASE_URL=your_api_url_here
    ```
 
 4. Start the development server:
@@ -101,17 +101,6 @@ src/
 - `npm run build`: Build the application for production.
 - `npm run lint`: Run ESLint for code analysis.
 - `npm run preview`: Locally preview the production build.
-- `npm run cap:sync`: Build the web app and synchronize assets with Capacitor Android.
-- `npm run android:build`: Build a local debug APK.
-- `npm run android:open`: Open the Android project in Android Studio.
-
-### Android APK via GitHub Actions
-
-The repository includes a workflow at `.github/workflows/android-apk.yml`. It runs on pushes to `main` and can also be started manually from the **Actions** tab using **Build Android APK → Run workflow**.
-
-The workflow builds a debug APK and publishes it as an artifact named `chatgram-debug-apk-<commit-sha>`. Download the artifact from the completed workflow run, extract `app-debug.apk`, and install it on an Android device for testing. A repository variable named `VITE_API_URL` may be configured if the CI build must use an API URL different from the checked-in environment template.
-
-The debug APK is intended for testing and is not a Play Store release. Production release signing should use a protected Android keystore stored in GitHub Actions secrets and must not be committed to the repository.
 
 ---
 
