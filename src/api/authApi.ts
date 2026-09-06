@@ -32,3 +32,15 @@ export const changePassword = async (data: IChangePassword) => {
   const response = await api.patch('/auth/profile/change-password', data)
   return response.data
 }
+
+export const uploadProfileAvatar = async (image: File): Promise<IProfileResponse> => {
+  const formData = new FormData()
+  formData.append('image', image)
+  const response = await api.post<IProfileResponse>('/auth/profile/avatar', formData)
+  return response.data
+}
+
+export const removeProfileAvatar = async (): Promise<IProfileResponse> => {
+  const response = await api.delete<IProfileResponse>('/auth/profile/avatar')
+  return response.data
+}

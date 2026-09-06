@@ -64,7 +64,8 @@
     "members": "Участники группы",
     "addMember": "Добавить участника",
     "removeMember": "Удалить участника",
-    "membersError": "Не удалось изменить состав группы"
+    "membersError": "Не удалось изменить состав группы",
+    "removeAvatar": "Удалить аватар"
   },
   "profile": {
     "title": "Настройки профиля",
@@ -90,7 +91,9 @@
     "language": "Язык",
     "languageSubtitle": "Выберите язык интерфейса.",
     "appearance": "Внешний вид",
-    "appearanceSubtitle": "Выберите светлую или тёмную тему."
+    "appearanceSubtitle": "Выберите светлую или тёмную тему.",
+    "changeAvatar": "Изменить аватар",
+    "removeAvatar": "Удалить аватар"
   },
   "home": {
     "welcome": "Добро пожаловать в ChatGram",

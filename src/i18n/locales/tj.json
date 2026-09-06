@@ -64,7 +64,8 @@
     "members": "Аъзоёни гурӯҳ",
     "addMember": "Илова кардани аъзо",
     "removeMember": "Нест кардани аъзо",
-    "membersError": "Таркиби гурӯҳ тағйир дода нашуд"
+    "membersError": "Таркиби гурӯҳ тағйир дода нашуд",
+    "removeAvatar": "Нест кардани аватар"
   },
   "profile": {
     "title": "Танзимоти профил",
@@ -90,7 +91,9 @@
     "language": "Забон",
     "languageSubtitle": "Забони интерфейсро интихоб кунед.",
     "appearance": "Намуди барнома",
-    "appearanceSubtitle": "Мавзуи рӯшно ё торикро интихоб кунед."
+    "appearanceSubtitle": "Мавзуи рӯшно ё торикро интихоб кунед.",
+    "changeAvatar": "Тағйир додани аватар",
+    "removeAvatar": "Нест кардани аватар"
   },
   "home": {
     "welcome": "Хуш омадед ба ChatGram",

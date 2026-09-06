@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Check, Loader2, Search, Users, X } from 'lucide-react'
+import { Check, ImagePlus, Loader2, Search, Users, X } from 'lucide-react'
 import { createGroup } from '../../api/chatApi'
 import { getUsers } from '../../api/userApi'
 import type { IUser, IUsers } from '../../types/user'
@@ -22,6 +22,7 @@ export const CreateGroupModal = ({ open, onClose }: CreateGroupModalProps) => {
   const [name, setName] = useState('')
   const [search, setSearch] = useState('')
   const [selectedUsers, setSelectedUsers] = useState<IUser[]>([])
+  const [avatar, setAvatar] = useState<File | undefined>()
 
   const { data, isLoading } = useQuery<IUsers>({
     queryKey: ['group-users', search],
@@ -30,12 +31,13 @@ export const CreateGroupModal = ({ open, onClose }: CreateGroupModalProps) => {
   })
 
   const mutation = useMutation({
-    mutationFn: () => createGroup({ name: name.trim(), memberIds: selectedUsers.map((user) => user.id) }),
+    mutationFn: () => createGroup({ name: name.trim(), memberIds: selectedUsers.map((user) => user.id), avatar }),
     onSuccess: async (response) => {
       await queryClient.invalidateQueries({ queryKey: ['chatList'] })
       setName('')
       setSearch('')
       setSelectedUsers([])
+      setAvatar(undefined)
       onClose()
       navigate(`/chat/${response.data.id}`)
     },
@@ -52,6 +54,7 @@ export const CreateGroupModal = ({ open, onClose }: CreateGroupModalProps) => {
     setName('')
     setSearch('')
     setSelectedUsers([])
+    setAvatar(undefined)
     onClose()
   }
 
@@ -69,7 +72,7 @@ export const CreateGroupModal = ({ open, onClose }: CreateGroupModalProps) => {
         </div>
 
         <div className="space-y-4">
-          <Input value={name} onChange={(event) => setName(event.target.value)} placeholder={t('group.namePlaceholder')} autoFocus />
+          <div className="flex items-center gap-3"><label className="flex h-16 w-16 cursor-pointer items-center justify-center overflow-hidden rounded-2xl border border-dashed border-border bg-secondary/30">{avatar ? <img src={URL.createObjectURL(avatar)} alt="" className="h-full w-full object-cover" /> : <ImagePlus size={20} className="text-muted-foreground" />}<input type="file" accept="image/jpeg,image/png,image/webp,image/gif" className="hidden" onChange={(event) => setAvatar(event.target.files?.[0])} /></label><Input value={name} onChange={(event) => setName(event.target.value)} placeholder={t('group.namePlaceholder')} autoFocus /></div>
           {selectedUsers.length > 0 && <div className="flex flex-wrap gap-2">{selectedUsers.map((user) => <button type="button" key={user.id} onClick={() => toggleUser(user)} className="flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs text-primary">{user.fullname}<X size={12} /></button>)}</div>}
           <div className="relative"><Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} /><Input value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t('group.searchUsers')} className="pl-9" /></div>
           <div className="max-h-52 overflow-y-auto rounded-xl border border-border/50 p-2">

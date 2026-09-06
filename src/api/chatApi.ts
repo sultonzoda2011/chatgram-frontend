@@ -21,7 +21,23 @@ export const openDirectConversation = async (userId: number): Promise<IConversat
 }
 
 export const createGroup = async (data: ICreateGroupInput): Promise<IConversationResponse> => {
-  const response = await api.post<IConversationResponse>('/chat/conversations/group', data)
+  const formData = new FormData()
+  formData.append('name', data.name)
+  formData.append('memberIds', JSON.stringify(data.memberIds))
+  if (data.avatar) formData.append('avatar', data.avatar)
+  const response = await api.post<IConversationResponse>('/chat/conversations/group', formData)
+  return response.data
+}
+
+export const uploadGroupAvatar = async (conversationId: number, image: File): Promise<IConversationResponse> => {
+  const formData = new FormData()
+  formData.append('image', image)
+  const response = await api.post<IConversationResponse>(`/chat/conversations/${conversationId}/avatar`, formData)
+  return response.data
+}
+
+export const removeGroupAvatar = async (conversationId: number): Promise<IConversationResponse> => {
+  const response = await api.delete<IConversationResponse>(`/chat/conversations/${conversationId}/avatar`)
   return response.data
 }
 

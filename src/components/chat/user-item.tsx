@@ -29,7 +29,7 @@ export const UserItem = ({ chat, isActive, isCollapsed, isMobileOpen, onItemClic
     >
       <div className="relative shrink-0">
         <div className="w-12 h-12 rounded-full bg-linear-to-br from-primary/20 to-accent/20 flex items-center justify-center border border-border/50">
-          <span className="text-sm font-bold opacity-70">{title.charAt(0).toUpperCase()}</span>
+          {chat.avatarUrl ? <img src={chat.avatarUrl} alt="" className="h-full w-full rounded-full object-cover" /> : <span className="text-sm font-bold opacity-70">{title.charAt(0).toUpperCase()}</span>}
         </div>
       </div>
       {(!isCollapsed || isMobileOpen) && (

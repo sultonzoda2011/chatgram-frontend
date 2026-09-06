@@ -82,6 +82,7 @@ export interface IUpdateMessageInput {
 export interface ICreateGroupInput {
   name: string
   memberIds: number[]
+  avatar?: File
 }
 
 export interface IAddMemberInput {

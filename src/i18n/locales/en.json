@@ -64,7 +64,8 @@
     "members": "Group members",
     "addMember": "Add member",
     "removeMember": "Remove member",
-    "membersError": "Could not update group members"
+    "membersError": "Could not update group members",
+    "removeAvatar": "Remove avatar"
   },
   "profile": {
     "title": "Profile settings",
@@ -90,7 +91,9 @@
     "language": "Language",
     "languageSubtitle": "Choose app language.",
     "appearance": "Appearance",
-    "appearanceSubtitle": "Choose light or dark theme."
+    "appearanceSubtitle": "Choose light or dark theme.",
+    "changeAvatar": "Change avatar",
+    "removeAvatar": "Remove avatar"
   },
   "home": {
     "welcome": "Welcome to ChatGram",
